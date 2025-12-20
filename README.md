@@ -20,6 +20,7 @@ brainjam/
 ├── literature/          # Curated papers on neural decoding, Mind-Vis, and generative audio
 ├── models/             # Documentation of pretrained audio/music models for transfer learning
 ├── notebooks/          # Jupyter notebooks for experiments and analysis
+├── psychology/         # Psychological measures, behavioral tasks, and validation frameworks
 ├── toy_interface/      # Proof-of-concept real-time brain→sound prototypes
 ├── ethics.md           # Ethical considerations and responsible research practices
 └── limitations.md      # Technical and conceptual limitations
@@ -37,10 +38,14 @@ brainjam/
 - Latent space exploration conditioned on neural features
 - Real-time audio synthesis from brain state proxies
 
-### Psychological Framework
-- **Creativity**: Divergent thinking, flow states, and novel idea generation
-- **Agency**: Sense of control and authorship in music creation
-- **Well-being**: Emotional regulation, self-expression, and therapeutic potential
+### Psychological Measures (NEW)
+- **Emotion**: PANAS, SAM, aesthetic emotions scales
+- **Agency**: Sense of control and ownership questionnaires
+- **Creativity**: Divergent thinking tasks, flow states
+- **Well-being**: Life satisfaction, flourishing measures
+- **Validation**: Ethical frameworks for AI-mediated interventions
+
+See: [`psychology/README.md`](psychology/README.md)
 
 ## Getting Started
 
@@ -59,7 +64,8 @@ pip install -r requirements.txt
 1. Explore the literature review in `literature/`
 2. Review available models in `models/README.md`
 3. Run example notebooks in `notebooks/`
-4. Experiment with the toy interface in `toy_interface/`
+4. Try psychological measures in `psychology/`
+5. Experiment with the toy interface in `toy_interface/`
 
 ## Research Approach
 

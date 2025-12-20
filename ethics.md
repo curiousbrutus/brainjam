@@ -62,6 +62,8 @@ This document outlines ethical principles and considerations for research involv
 
 **Key Question**: Does the system increase or decrease the user's sense of creative control?
 
+**Assessment Tools**: See comprehensive agency measures in [`psychology/questionnaires/`](psychology/questionnaires/README.md#agency-and-ownership-scales) and [`psychology/behavioral_tasks/`](psychology/behavioral_tasks/README.md#agency-manipulation-tasks).
+
 ### 4. Well-Being and Safety
 
 **Principle**: Do no harm; prioritize participant psychological and physical safety.
@@ -73,6 +75,8 @@ This document outlines ethical principles and considerations for research involv
 - Ensure comfortable, safe experimental conditions
 - Screen for contraindications (epilepsy, psychological conditions)
 - Have support resources available
+
+**Assessment Tools**: See comprehensive well-being measures in [`psychology/questionnaires/`](psychology/questionnaires/README.md#well-being-measures) and safety validation protocols in [`psychology/validation/`](psychology/validation/README.md#safety-validation).
 
 **Risks**:
 - Psychological distress from inadequate control
@@ -169,6 +173,8 @@ This document outlines ethical principles and considerations for research involv
 - Explore rather than prescribe creative processes
 - Value diverse forms of creativity
 
+**Measurement Tools**: See comprehensive creativity assessments in [`psychology/behavioral_tasks/`](psychology/behavioral_tasks/README.md) (divergent thinking, creative fluency) and flow state measures in [`psychology/questionnaires/`](psychology/questionnaires/README.md#flow-state-scale).
+
 ### Therapeutic Applications
 
 **Additional Considerations**:
@@ -196,6 +202,8 @@ This document outlines ethical principles and considerations for research involv
 - **Justice**: Fair participant selection; don't exploit vulnerable groups
 - **Pre-registration**: Commit to analysis plans to avoid p-hacking
 - **Replication**: Enable verification of findings
+
+**Design Resources**: See comprehensive experimental design templates and methodologies in [`psychology/experimental_designs/`](psychology/experimental_designs/README.md), including power analysis, counterbalancing, and control conditions.
 
 ### Data Management
 
@@ -258,6 +266,19 @@ This document outlines ethical principles and considerations for research involv
 5. Longitudinal follow-up to assess lasting effects
 6. Public engagement and education
 7. Interdisciplinary collaboration (ethicists, musicians, HCI experts)
+8. **Use comprehensive validation frameworks** (see [`psychology/validation/`](psychology/validation/README.md))
+
+### Validation Framework Integration
+
+For systematic ethical validation of AI-mediated creative interventions, this project includes comprehensive frameworks in the psychology module:
+
+- **Efficacy Validation**: Does the intervention work as intended? ([`psychology/validation/README.md#efficacy-validation`](psychology/validation/README.md))
+- **Safety Validation**: Monitor for adverse psychological effects ([`psychology/validation/README.md#safety-validation`](psychology/validation/README.md))
+- **Agency Validation**: Ensure creative control is preserved/enhanced ([`psychology/validation/README.md#agency-validation`](psychology/validation/README.md))
+- **Well-Being Validation**: Assess long-term psychological impact ([`psychology/validation/README.md#wellbeing-validation`](psychology/validation/README.md))
+- **Equity Validation**: Evaluate who benefits and ensure inclusive access ([`psychology/validation/README.md#equity-validation`](psychology/validation/README.md))
+
+See the full validation framework with ethical decision trees, stop criteria, and assessment methods in [`psychology/validation/`](psychology/validation/).
 
 ### Red Flags to Avoid
 
@@ -314,6 +335,8 @@ Ethics is not a checklist but an ongoing process:
 - Adjust protocols based on participant feedback
 - Publish ethical reflections alongside findings
 - Engage with criticism constructively
+
+**Integrated Assessment**: For comprehensive, multi-dimensional evaluation of interventions combining self-report, behavioral, and neural measures, see [`psychology/multimodal_fusion/`](psychology/multimodal_fusion/README.md).
 
 ## Resources
 
