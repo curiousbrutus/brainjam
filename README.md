@@ -1,4 +1,4 @@
-# BrainJam: Brain-Mediated Music and Creativity Research
+# BrainJam: Brain-Mediated Music and Creativity Research -PROTOTYPE-
 
 A research repository for PhD work exploring the intersection of neuroscience, creativity, and generative music systems.
 
@@ -88,10 +88,10 @@ This project emphasizes:
 If you use this work in your research, please cite:
 
 ```bibtex
-@misc{brainjam2024,
+@misc{brainjam2025,
   title={BrainJam: Brain-Mediated Music and Creativity Research},
-  author={[Your Name]},
-  year={2024},
+  author={[Eyyub Guven]},
+  year={12/2025},
   howpublished={\url{https://github.com/curiousbrutus/brainjam}}
 }
 ```
@@ -102,4 +102,4 @@ This research project is shared for academic and educational purposes. See LICEN
 
 ## Contact
 
-For questions or collaboration inquiries, please open an issue or contact [your email].
+For questions or collaboration inquiries, please open an issue or contact [eyyub.gvn@gmail.com].
