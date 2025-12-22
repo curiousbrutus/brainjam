@@ -4,7 +4,7 @@
 
 ### Brain-Computer Music Interfacing
 **Miranda, E. R., & Castet, J. (2014)** - *Guide to Brain-Computer Music Interfacing*
-- **Link**: ISBN: 978-1-4471-6583-2
+- **Link**: [ISBN: 978-1-4471-6583-2](https://www.academia.edu/118644287/Guide_to_Brain_Computer_Music_Interfacing) | https://jmladeno.net/wp-content/uploads/2017/07/Springer.pdf
 - **Summary**: Comprehensive overview of BCIs designed for musical applications, from performance to composition.
 - **Relevance**: Foundational reference for musical BCI design principles.
 
