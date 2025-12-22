@@ -4,7 +4,7 @@
 
 ### Mind-Vis: Seeing Beyond the Brain
 **Tang, J., et al. (2023)** - *Mind-Vis: Conditional Diffusion Models for Decoding Visual Stimuli from fMRI*
-- **Link**: https://arxiv.org/abs/2308.02344
+- **Link**: https://mind-vis.github.io/
 - **Summary**: Proposes using conditional diffusion models to reconstruct visual stimuli from fMRI signals. Uses contrastive learning to align brain representations with CLIP embeddings.
 - **Relevance**: Demonstrates feasibility of decoding complex perceptual content from fMRI; techniques adaptable to music/audio perception.
 - **Key Methods**: 
