@@ -64,7 +64,7 @@
 
 ### Music-Making and Well-Being
 **Creech, A., et al. (2013)** - *The power of music in the lives of older adults*
-- **Link**: https://doi.org/10.1177/105382591303600102
+- **Link**: https://www.researchgate.net/publication/258183735_The_power_of_music_in_the_lives_of_older_adults
 - **Summary**: Active music-making enhances well-being more than passive listening.
 - **Relevance**: Supports focus on creative participation rather than passive brain-music systems.
 
