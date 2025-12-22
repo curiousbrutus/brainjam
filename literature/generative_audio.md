@@ -67,7 +67,7 @@
 
 ### Music Tagging and Representation
 **Won, M., et al. (2021)** - *Emotion Embeddings: Learning Representations from Music*
-- **Link**: https://arxiv.org/abs/2104.00154
+- **Link**: https://arxiv.org/abs/2111.13468
 - **Summary**: Self-supervised learning of music representations capturing emotional and semantic content.
 - **Relevance**: Provides embeddings for matching brain states to musical characteristics.
 
