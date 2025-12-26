@@ -1,423 +1,575 @@
-# Technical and Conceptual Limitations
+# BrainJam Limitations and Design Constraints
 
 ## Introduction
 
-This document provides an honest assessment of the limitations, challenges, and uncertainties in brain-mediated music research. Understanding these limitations is essential for responsible research, realistic expectations, and identifying areas for future work.
-
-## Neural Signal Limitations
-
-### 1. Signal Quality and Noise
-
-**fMRI**:
-- **BOLD signal is indirect**: Measures blood oxygenation, not neural activity directly
-- **Slow temporal resolution**: Hemodynamic response takes 4-6 seconds
-- **Physiological noise**: Cardiac, respiratory artifacts
-- **Motion artifacts**: Head movement corrupts data
-- **Limited field of view**: Gradual signal dropout in some regions
-
-**EEG**:
-- **Volume conduction**: Signals smear across scalp, poor spatial resolution
-- **Artifacts dominate**: Eye blinks, muscle activity, electrode movement
-- **Reference dependency**: Choice of reference affects all signals
-- **Limited depth**: Primarily measures cortical surface, not deep structures
-- **Individual variability**: Skull thickness, conductivity vary
-
-**fNIRS**:
-- **Limited penetration depth**: ~2-3cm, cortex only
-- **Sensitivity to superficial blood flow**: Scalp contamination
-- **Limited spatial coverage**: Small field of view per sensor
-- **Motion sensitivity**: Movement causes artifacts
-
-### 2. Spatial and Temporal Constraints
-
-**Spatial-Temporal Trade-off**:
-- fMRI: Good spatial (~2-3mm), poor temporal (~1-2s)
-- EEG: Poor spatial (~5-10cm), good temporal (~1ms)
-- No current method provides both high spatial and temporal resolution
-
-**Implications**:
-- Can't precisely track fast neural dynamics in specific small regions
-- Must choose between spatial localization and temporal precision
-- Multimodal approaches add complexity and cost
-
-### 3. Individual Differences
-
-**Between-Subject Variability**:
-- Brain anatomy varies significantly between individuals
-- Functional organization shows inter-individual differences
-- Neural responses to music highly personal and experience-dependent
-- Cultural background affects music perception
-
-**Implications**:
-- Group-level models may not work for individuals
-- Personalized calibration necessary but time-consuming
-- Cross-subject generalization limited
-- Demographic diversity essential but harder to achieve
-
-## Decoding Limitations
-
-### 1. The Inverse Problem
-
-**Challenge**: Many different neural patterns can produce similar observed signals.
-
-**Example**: 
-- Reverse-engineering mental content from neural signals is fundamentally underdetermined
-- Multiple neural sources can generate similar scalp EEG patterns
-- Cannot uniquely identify all active brain regions from measurements
-
-**Implications**:
-- Neural decoding is probabilistic, never deterministic
-- Confidence in predictions must be explicitly quantified
-- Alternative interpretations should be considered
-- "Mind reading" is a misleading characterization
-
-### 2. Correlation vs. Causation
-
-**Challenge**: Neural correlates of experience don't imply causal mechanisms.
-
-**Examples**:
-- Alpha power correlates with relaxation, but does reducing alpha cause anxiety?
-- DMN activation during creativity, but is DMN necessary or sufficient?
-- fMRI activation during music listening, but what computation occurs there?
-
-**Implications**:
-- Descriptive models don't explain mechanisms
-- Interventions based on correlations may not work
-- Need complementary methods (lesion studies, TMS, computational models)
-
-### 3. The Decoder-Encoder Symmetry
-
-**Challenge**: Just because we can decode X from brain activity doesn't mean we can encode (generate) X by inducing that activity.
-
-**Example**:
-- Decoding visual percepts ≠ inducing specific perceptions
-- Correlating brain states with creativity ≠ inducing creativity
-
-**Implications**:
-- Brain→music decoding doesn't guarantee music→brain effects
-- Therapeutic claims require separate validation
-- Bi-directional BCIs face additional challenges
-
-### 4. Temporal Dynamics
-
-**Challenge**: Brain activity is highly dynamic; snapshot measurements miss temporal structure.
-
-**Issues**:
-- State-dependent processing (same stimulus, different context → different response)
-- Non-stationarity (brain changes over time, even within a session)
-- Feedback loops between brain, body, and environment
-- Temporal integration windows matter
-
-**Implications**:
-- Single-timepoint features insufficient
-- Need to model sequences and dynamics
-- Predictions may degrade over time
-- Context-dependency limits generalization
-
-## Mapping Limitations
-
-### 1. Dimensionality Mismatch
-
-**Challenge**: Brain space and music space have different dimensionalities and structure.
-
-**Examples**:
-- Brain features: 10-1000+ dimensions, continuous, noisy
-- Music parameters: Varies by model, may be discrete or continuous
-- Latent spaces: Low-dimensional but non-Euclidean geometry
-
-**Implications**:
-- Information loss in dimensionality reduction
-- Non-obvious optimal mappings
-- Many possible mapping strategies
-- May need hierarchical or multi-stage mappings
-
-### 2. Subjective Experience Gap
-
-**Challenge**: Neural signals relate to objective measurements, but music is subjectively experienced.
-
-**Issues**:
-- Individual differences in music preference
-- Contextual effects on enjoyment
-- Cultural and experiential background
-- Mood and expectation effects
-
-**Implications**:
-- Objective brain-music mappings may not produce subjectively pleasing results
-- User feedback and preference learning essential
-- Cannot rely solely on neural features
-- Need user-centered design, not just neuroscience-driven
-
-### 3. Latency Constraints
-
-**Challenge**: Real-time systems must process signals fast enough for natural interaction.
-
-**Requirements**:
-- Total latency <100ms for natural feel
-- Audio-rate processing ~10ms for tight synchrony
-- Visual feedback ~16ms for smooth animation
-
-**Current Reality**:
-- fMRI: 1-2s inherent delay (hemodynamic response)
-- EEG: Can be fast but preprocessing takes time
-- Feature extraction: 10-50ms depending on complexity
-- Audio synthesis: 10-100ms depending on method
-
-**Implications**:
-- fMRI unsuitable for real-time music interaction
-- EEG and fNIRS more viable but still challenging
-- Trade-offs between feature complexity and latency
-- May need predictive models to compensate for delays
-
-### 4. Stability and Reliability
-
-**Challenge**: Systems must be robust to noise, artifacts, and changing conditions.
-
-**Issues**:
-- Electrode impedance changes over time (EEG)
-- Head motion introduces artifacts
-- User physiological state affects signals (fatigue, attention)
-- Environmental noise and interference
-
-**Implications**:
-- Perfect reliability unrealistic
-- Need graceful degradation
-- Manual override essential
-- Regular calibration may be necessary
-
-## Generative Model Limitations
-
-### 1. Model Biases
-
-**Challenge**: Pretrained models reflect biases in training data.
-
-**Examples**:
-- Western music over-represented in datasets
-- Certain genres privileged over others
-- Commercial music more common than experimental
-- Lyrics and vocals under-represented in some models
-
-**Implications**:
-- Generated music may lack cultural diversity
-- Novel musical ideas may be underexplored
-- Fine-tuning may be necessary for specific applications
-- Acknowledge and disclose training data composition
-
-### 2. Controllability vs. Quality Trade-off
-
-**Challenge**: More controllable models often produce lower quality output.
-
-**Examples**:
-- DDSP: Highly controllable but limited timbres
-- Large language models: High quality but coarse control
-- Symbolic models: Precise control but lacks audio realism
-
-**Implications**:
-- Must choose appropriate model for application
-- Hybrid approaches may be necessary
-- Iterate between quality and control priorities
-
-### 3. Computational Requirements
-
-**Challenge**: Large models require significant computational resources.
-
-**Examples**:
-- Jukebox: ~5 billion parameters, slow generation
-- MusicGen: Gigabytes of memory, requires GPU
-- Real-time generation: Difficult with large models
-
-**Implications**:
-- Trade-off between quality and speed
-- May need edge devices or cloud processing
-- Cost barriers to access
-- Environmental impact of large models
-
-### 4. Coherence and Structure
-
-**Challenge**: Maintaining long-term musical structure is difficult.
-
-**Issues**:
-- Models can generate locally coherent music but lack global structure
-- Repetition vs. variation balance hard to control
-- Harmonic and melodic development often weak
-- No understanding of musical narrative or form
-
-**Implications**:
-- Generated music may feel aimless or repetitive
-- Human curation and editing often necessary
-- Hierarchical models needed for structure
-- Hybrid human-AI workflows more practical
-
-## Conceptual Limitations
-
-### 1. The Creativity Paradox
-
-**Question**: If a system generates music from brain activity, who is the creative agent?
-
-**Tensions**:
-- System autonomy vs. human agency
-- Authorship and ownership ambiguities
-- Value of effort and skill in creativity
-- Authenticity and artistic identity
-
-**Implications**:
-- Philosophical questions without clear answers
-- Need for new frameworks of creative authorship
-- User agency must be prioritized in design
-- Ongoing dialogue with artists and musicians
-
-### 2. The Measurement Effect
-
-**Challenge**: Measuring brain activity may alter the creative process itself.
-
-**Example**:
-- Self-consciousness about being measured
-- Experimental setting differs from natural creativity
-- Feedback from system changes spontaneous generation
-- Performance anxiety or evaluation apprehension
-
-**Implications**:
-- Lab findings may not generalize to real creativity
-- Need naturalistic research paradigms
-- Recognize artificiality of experimental contexts
-- Ecological validity concerns
-
-### 3. Defining "Creative" Brain States
-
-**Challenge**: No consensus on neural markers of creativity.
-
-**Issues**:
-- Creativity is multifaceted (divergent thinking, originality, usefulness)
-- Task-dependent neural patterns
-- Domain-specific creativity (visual, musical, verbal)
-- Culture-dependent definitions
-
-**Implications**:
-- No single "creativity" signal to decode
-- Must specify which aspect of creativity is targeted
-- Avoid reductive neuroscience explanations
-- Respect multiple valid creative processes
-
-### 4. The Therapeutic Claim Problem
-
-**Challenge**: Preliminary findings often lead to premature therapeutic claims.
-
-**Cautions**:
-- Correlation ≠ therapeutic efficacy
-- Placebo effects are strong in music interventions
-- Individual differences mean population effects don't guarantee individual benefit
-- Regulatory hurdles for medical claims
-
-**Implications**:
-- Be conservative in therapeutic claims
-- Require rigorous clinical validation
-- Distinguish research from therapy
-- Avoid overpromising benefits
-
-## Practical Limitations
-
-### 1. Equipment and Expertise
-
-**Requirements**:
-- Expensive equipment (EEG systems: $1K-$50K+, fMRI: millions)
-- Technical expertise for setup and troubleshooting
-- Signal processing knowledge
-- Interdisciplinary collaboration (neuroscience, music, engineering, HCI)
-
-**Barriers**:
-- Access limited to well-resourced institutions
-- Steep learning curve for researchers
-- Difficult to replicate studies
-- Knowledge silos between disciplines
-
-### 2. Participant Burden
-
-**Issues**:
-- Time-consuming protocols (setup, calibration, data collection)
-- Physical discomfort (electrodes, confined spaces)
-- Cognitive demands (attention, task instructions)
-- Repeated sessions for training/calibration
-
-**Implications**:
-- High attrition rates
-- Selection bias (only motivated/able participants)
-- Limited ecological validity
-- Trade-off between data quality and participant experience
-
-### 3. Reproducibility Challenges
-
-**Problems**:
-- Small sample sizes common in neuroimaging
-- Many degrees of freedom in analysis pipelines
-- Publication bias toward positive results
-- Proprietary systems limit replication
-
-**Solutions**:
-- Pre-registration of analyses
-- Open data and code sharing
-- Larger sample sizes
-- Replication studies
-- Transparent reporting
-
-### 4. Scalability
-
-**Barriers**:
-- One-on-one sessions don't scale
-- Personalization increases overhead
-- Hardware requirements limit deployment
-- Support and maintenance for deployed systems
-
-**Reality Check**:
-- These are research prototypes, not consumer products
-- Deployment requires extensive additional work
-- Long-term support often unsustainable
-- Manage expectations about practical impact
-
-## Future Directions
-
-Despite limitations, the field is advancing:
-
-### Short-term (1-3 years)
-- Better consumer EEG devices
-- More efficient generative models
-- Improved artifact rejection algorithms
-- Open-source toolkits and datasets
-
-### Medium-term (3-7 years)
-- Higher-quality portable neuroimaging
-- Multimodal integration (EEG + fNIRS + context)
-- Personalized models with minimal calibration
-- Validated therapeutic applications
-
-### Long-term (7+ years)
-- Brain-music interfaces in creative practice
-- Novel musical instruments based on neural signals
-- Understanding neural basis of musical creativity
-- Ethical frameworks and regulations
-
-## Conclusion
-
-### What We Know
-- Brain activity correlates with musical experience
-- Neural signals can be decoded above chance
-- Generative models can create music
-- Real-time BCIs are technically feasible
-
-### What We Don't Know
-- Causal mechanisms of creativity
-- Optimal brain-music mappings
-- Long-term effects of use
-- Generalizability across individuals and cultures
-
-### What We Should Remember
-- **Humility**: Neural decoding is probabilistic, not deterministic
-- **Honesty**: Acknowledge limitations openly
-- **Responsibility**: Prioritize user well-being and agency
-- **Curiosity**: Explore possibilities while respecting constraints
-
-This is exploratory research at an early stage. Exciting progress is possible, but requires realistic expectations, rigorous methods, and ethical consideration.
+This document provides an honest assessment of BrainJam's limitations, constraints, and design trade-offs. Understanding these is essential for:
+- Setting realistic expectations
+- Making informed decisions about system use
+- Identifying future development priorities
+- Responsible communication
 
 ---
 
-*"The brain is wider than the sky" - Emily Dickinson*
+## Performance System Limitations
 
-But our ability to measure and model it remains limited. Proceed with enthusiasm tempered by realism.
+### 1. Latency Constraints
+
+**Current State**: Target < 100ms end-to-end
+
+**Breakdown**:
+- Signal acquisition: 10-40ms (depends on buffer size)
+- Feature extraction: 10-30ms
+- Mapping: <5ms
+- Synthesis: 20-50ms
+- Audio output: 10-40ms
+- **Typical total**: 60-150ms
+
+**Limitations**:
+- Some performers may perceive >80ms as "sluggish"
+- Trade-off between latency and system stability
+- Complex synthesis increases latency
+- Cannot achieve "acoustic instrument" feel (<10ms)
+
+**Mitigations**:
+- Optimize each stage
+- Use predictive models
+- Provide latency feedback to performer
+- Allow manual latency compensation
+
+---
+
+### 2. Control Granularity
+
+**Challenge**: Brain signals provide coarse, slow control
+
+**Reality**:
+- EEG features change on ~100-500ms timescales
+- Not suitable for note-level or rapid articulation control
+- Best for macro parameters (texture, density, mood)
+- Temporal smoothing necessary (reduces responsiveness)
+
+**Comparison**:
+- Keyboard: Millisecond precision
+- MIDI controller: Sub-millisecond
+- Gesture: ~50ms
+- **EEG: ~200-500ms**
+
+**Design Implications**:
+- EEG controls "weather," not individual "notes"
+- Best for sustained, evolving soundscapes
+- Hybrid control (EEG + keyboard) often more expressive
+- Not a replacement for traditional interfaces
+
+---
+
+### 3. Signal Quality and Artifacts
+
+**EEG/fNIRS Challenges**:
+- Eye blinks → large artifacts
+- Muscle tension → swamps brain signals
+- Movement → electrode artifacts
+- Electrical noise → interference
+
+**Practical Impact**:
+- Performer must remain relatively still
+- Dry electrodes less reliable than gel
+- Setup time and calibration needed
+- Signal quality varies between sessions
+
+**Mitigations**:
+- Artifact detection and removal
+- Robust feature extraction
+- Graceful degradation when signal poor
+- Provide signal quality feedback
+
+---
+
+### 4. Individual Variability
+
+**Challenge**: Brain signals vary greatly between people
+
+**Sources of Variation**:
+- Anatomical differences (skull, brain structure)
+- Baseline brain activity patterns
+- Cognitive style and experience
+- Attention and fatigue states
+- Cultural and musical background
+
+**Implications**:
+- One-size-fits-all mappings don't work well
+- Personalization and adaptation necessary
+- System may work better for some than others
+- No "correct" brain pattern exists
+
+**Approaches**:
+- Allow custom mapping creation
+- Provide mapping templates as starting points
+- Support individual calibration (optional)
+- Design for diversity, not normative "optimal" signals
+
+---
+
+## Control Signal Limitations
+
+### 1. EEG Is Not Mind Reading
+
+**What EEG Can Provide**:
+- ✓ Continuous control parameters (0-1 range)
+- ✓ Slowly-varying signals (~0.5-2 Hz)
+- ✓ Rough indicators of attention/arousal
+- ✓ Frequency band power estimates
+
+**What EEG Cannot Provide**:
+- ✗ Decoded intentions or thoughts
+- ✗ Semantic content of mental states
+- ✗ Accurate emotion classification
+- ✗ Precise timing of cognitive events
+- ✗ Deep brain activity
+
+**Reality Check**:
+- Signals are noisy, continuous, ambiguous
+- Multiple interpretations always possible
+- Correlation ≠ causation
+- Context-dependent and individual
+
+---
+
+### 2. Mock EEG vs Real EEG
+
+**Mock EEG** (for development):
+- ✓ Structured, predictable
+- ✓ No setup time
+- ✓ Reproducible
+- ✓ No artifacts
+- ✗ Not realistic dynamics
+- ✗ Oversimplified
+
+**Real EEG**:
+- ✓ Genuine biophysical signal
+- ✓ Individual variation
+- ✓ Rich dynamics
+- ✗ Artifacts and noise
+- ✗ Setup overhead
+- ✗ Less predictable
+
+**When to Use Each**:
+- Mock: Development, testing, demonstrations
+- Real: Actual performance, research, evaluation
+
+---
+
+### 3. fNIRS Considerations
+
+**Advantages**:
+- More portable than EEG
+- Less artifact-prone than EEG
+- Good for prefrontal cortex monitoring
+
+**Limitations**:
+- **Very slow** (~1-2s hemodynamic delay)
+- Limited brain coverage
+- Sensitive to hair and motion
+- Expensive specialized equipment
+
+**Performance Use**:
+- fNIRS suitable for very slow, evolving parameters
+- Not for fast responsiveness
+- Best combined with other modalities
+
+---
+
+## Synthesis and AI Limitations
+
+### 1. Parametric Synthesis
+
+**Current Implementation**: Simple additive/subtractive synth
+
+**Strengths**:
+- ✓ Low latency (<50ms)
+- ✓ Fully controllable
+- ✓ Predictable behavior
+- ✓ No model loading
+
+**Limitations**:
+- Limited timbral palette
+- Simpler than commercial synthesizers
+- Not photorealistic instrument emulation
+- Repetitive without variety
+
+**Future Directions**:
+- DDSP-based synthesis
+- Wavetable synthesis
+- Physical modeling
+- Diffusion models (offline)
+
+---
+
+### 2. AI Co-Performer
+
+**Current Implementation**: Rule-based response patterns
+
+**Strengths**:
+- ✓ Predictable and transparent
+- ✓ Low computational cost
+- ✓ Immediate response
+- ✓ Understandable behavior
+
+**Limitations**:
+- Not truly "intelligent" (no learning)
+- Fixed response strategies
+- Limited musical sophistication
+- Cannot improvise or surprise meaningfully
+
+**Future Directions**:
+- Machine learning-based response
+- Temporal prediction models
+- Multi-agent systems
+- Adaptive behavior learning
+
+---
+
+### 3. Generative Models
+
+**Why Not Real-Time Diffusion/LLM?**:
+
+**Computational Cost**:
+- Large models require GPUs
+- Generation time: seconds to minutes
+- Memory requirements: gigabytes
+- Energy consumption significant
+
+**Latency**:
+- Diffusion: 10-60 seconds per generation
+- Autoregressive: 1-10 seconds
+- **Both far exceed <100ms target**
+
+**Control**:
+- Coarse control through prompts/conditioning
+- Hard to map continuous brain signals
+- Unpredictable outputs
+
+**Practical Approach**:
+- Use diffusion for offline generation
+- Use fast parametric synthesis for real-time
+- Hybrid: Pre-generate samples, blend in real-time
+
+---
+
+## System Design Limitations
+
+### 1. Simplicity vs Sophistication
+
+**Design Philosophy**: Start simple, add complexity carefully
+
+**Current Approach**:
+- 4 control parameters
+- Basic synthesis
+- Simple mapping models
+- Minimal ML/DL
+
+**Trade-offs**:
+- ✓ Understandable and debuggable
+- ✓ Low latency
+- ✓ Accessible to performers
+- ✗ Less expressive than possible
+- ✗ Limited timbral variety
+
+**Future**: Add complexity where it adds musical value
+
+---
+
+### 2. Stability vs Expressiveness
+
+**Tension**: Smoothing improves stability but reduces responsiveness
+
+**Current Approach**:
+- Temporal smoothing (α = 0.9-0.95)
+- Parameter clipping to [0,1]
+- Fade in/out to avoid clicks
+
+**Trade-offs**:
+- ✓ Stable, predictable behavior
+- ✓ No abrupt changes or glitches
+- ✗ Reduces rapid control changes
+- ✗ May feel "sluggish" to some performers
+
+**Tunable**: Performers can adjust smoothing amount
+
+---
+
+### 3. Transparency vs Automation
+
+**Design Principle**: Prioritize transparency over "magic"
+
+**Current Approach**:
+- All mappings visible and editable
+- No hidden automation
+- Manual control always available
+- Explainable AI behavior
+
+**Trade-offs**:
+- ✓ Performer understands system
+- ✓ Predictable and rehearseable
+- ✓ Maintains performer agency
+- ✗ Less "intelligent" appearance
+- ✗ Requires more performer knowledge
+
+**Intentional**: This is a feature, not a bug
+
+---
+
+## Practical Limitations
+
+### 1. Equipment Requirements
+
+**Minimum**:
+- Python 3.8+
+- Standard computer (no GPU required for basic use)
+- Audio output
+
+**Recommended**:
+- Multi-core CPU for real-time processing
+- Low-latency audio interface
+- EEG/fNIRS hardware (if using biophysical control)
+
+**Optional**:
+- GPU for advanced synthesis
+- MIDI controllers for hybrid control
+- External mixer for performance
+
+**Barriers**:
+- EEG systems: $200-$5000+
+- Learning curve for system setup
+- Technical troubleshooting needed
+
+---
+
+### 2. Setup and Calibration
+
+**Time Requirements**:
+- Initial setup: 30-60 minutes
+- EEG preparation: 10-30 minutes per session
+- System familiarization: Several hours of practice
+- Mapping customization: Ongoing process
+
+**Expertise Needed**:
+- Basic Python/programming
+- Understanding of audio synthesis concepts
+- Some signal processing knowledge (for EEG)
+- Musical/performance skills
+
+**Not Plug-and-Play**:
+- Requires technical literacy
+- Iteration and experimentation needed
+- Not suitable for casual users
+
+---
+
+### 3. Reliability and Robustness
+
+**Current State**: Research prototype, not production system
+
+**Known Issues**:
+- Occasional audio glitches
+- EEG signal quality varies
+- Mapping stability depends on conditions
+- No guarantee of crash-free operation
+
+**Production Readiness**: ✗ Not ready for:
+- Commercial release
+- Unsupervised use
+- High-stakes performances (without backup)
+- Medical/therapeutic applications
+
+**Appropriate Use**: ✓ Suitable for:
+- Research and development
+- Experimental performances
+- Creative exploration
+- Educational demonstrations
+
+---
+
+## Conceptual Limitations
+
+### 1. Agency and Authorship
+
+**Question**: Who makes the music—performer, AI, or both?
+
+**Reality**:
+- It's a collaboration
+- Performer provides input and direction
+- System interprets and responds
+- Boundaries are fuzzy
+
+**Design Response**:
+- Prioritize performer agency
+- Make system behavior transparent
+- Allow override and manual control
+- Frame as instrument, not autonomous agent
+
+---
+
+### 2. Musical Sophistication
+
+**Current Capability**: Basic, functional music generation
+
+**Not Comparable To**:
+- Professional human musicians
+- Advanced commercial synthesizers
+- State-of-the-art generative models
+- Traditional acoustic instruments
+
+**Realistic Framing**:
+- Experimental instrument for exploration
+- Tool for creativity, not replacement for skill
+- Novel expressive possibilities
+- Work in progress
+
+---
+
+### 3. Universality
+
+**Not One-Size-Fits-All**:
+- Different performers will experience it differently
+- Cultural and musical background matters
+- Some will find it expressive, others frustrating
+- Individual brain patterns vary significantly
+
+**Design Response**:
+- Provide customization options
+- Support multiple control modes
+- Avoid normative assumptions
+- Celebrate diversity of approaches
+
+---
+
+## Ethical and Social Limitations
+
+### 1. Accessibility Barriers
+
+**Current Barriers**:
+- Technical knowledge required
+- English-language documentation
+- Assumes computer access
+- EEG hardware cost
+
+**Working Toward**:
+- Clearer documentation
+- Multiple control modes (not just EEG)
+- Lower-cost options
+- Inclusive design
+
+---
+
+### 2. Representation and Bias
+
+**Training Data** (for future ML models):
+- Likely Western-centric
+- Commercial music over-represented
+- Experimental/avant-garde underrepresented
+
+**Design Response**:
+- Use synthesis, not just pretrained models
+- Support diverse musical aesthetics
+- Allow customization
+- Acknowledge limitations
+
+---
+
+### 3. Hype and Misunderstanding
+
+**Risk**: System may be misrepresented as:
+- "Mind reading" technology
+- Autonomous AI composer
+- Medical/therapeutic device
+- Perfect brain-computer interface
+
+**Mitigation**:
+- Clear, accurate communication
+- Explicit "what this is NOT" messaging
+- Manage expectations proactively
+- Educate audiences and media
+
+---
+
+## What BrainJam Is Good For
+
+✓ **Creative exploration** — Novel control paradigms  
+✓ **Research** — Human-AI interaction in performance  
+✓ **Education** — Teaching about HCI and creative AI  
+✓ **Experimental performance** — Embracing limitations as aesthetic  
+✓ **Accessibility** — Alternative control for some disabled performers
+
+---
+
+## What BrainJam Is Not Good For
+
+✗ **Precise musical control** — Use traditional interfaces  
+✗ **Production music** — Insufficient quality  
+✗ **Clinical applications** — Not validated or safe  
+✗ **Autonomous composition** — Requires human input  
+✗ **Plug-and-play use** — Requires technical skill
+
+---
+
+## Future Improvements
+
+### Short-term (Next 6 months)
+- [ ] Optimize latency further
+- [ ] Add more synthesis engines
+- [ ] Improve mapping customization UI
+- [ ] Better artifact rejection
+- [ ] More comprehensive testing
+
+### Medium-term (6-18 months)
+- [ ] Real EEG integration and testing
+- [ ] Advanced ML mapping models
+- [ ] Multi-performer systems
+- [ ] User studies with musicians
+- [ ] Public demonstrations
+
+### Long-term (18+ months)
+- [ ] DDSP-based synthesis
+- [ ] Adaptive AI co-performer
+- [ ] Mobile/embedded deployment
+- [ ] Integration with music software (DAWs)
+- [ ] Community-contributed mappings library
+
+---
+
+## Conclusion
+
+### Honest Assessment
+
+BrainJam is:
+- **Functional** — It works and generates sound
+- **Experimental** — Research prototype, not product
+- **Limited** — Many constraints and trade-offs
+- **Promising** — Novel expressive possibilities
+- **Transparent** — Limitations openly acknowledged
+
+### Managing Expectations
+
+- Don't expect mind reading or perfect control
+- Do expect a learning curve and iteration
+- Don't expect commercial-quality output
+- Do expect creative exploration and discovery
+- Don't expect it to work perfectly for everyone
+- Do expect to customize and adapt to your needs
+
+### Moving Forward
+
+Understanding limitations helps us:
+1. Design better systems
+2. Communicate responsibly
+3. Set realistic goals
+4. Identify research priorities
+5. Create more satisfying user experiences
+
+---
+
+**Remember**: Limitations are not failures—they're design constraints  
+that shape what the system can and should be used for.
+
+Embrace the constraints. Work within them. Find creative possibilities  
+in the gaps between what we can and can't do.
