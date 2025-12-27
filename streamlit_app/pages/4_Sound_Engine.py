@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from utils import plot_sound_parameters, create_audio_player_html
-from performance_system.sound_engines import ParametricSynth
+from performance_system.sound_engines import ParametricSynth, DDSPSynth, SymbolicSynth
 
 st.set_page_config(page_title="Sound Engine", page_icon="🔊", layout="wide")
 
@@ -25,56 +25,152 @@ st.markdown("""
 
 ## 🎵 From Control to Sound
 
-This page demonstrates how control parameters drive the sound synthesis engine.
+This page demonstrates how control parameters drive the sound synthesis engines.
 
 **Key Concept**: Sound parameters are **continuously controllable** — small changes in control create smooth variations in sound.
+
+**Three Engines Available**:
+- **Parametric**: Additive/subtractive synthesis (stable drones)
+- **DDSP**: Harmonic + noise synthesis (expressive timbres)
+- **Symbolic**: Note-based synthesis (melodic patterns)
 
 ---
 """)
 
-# Initialize synthesizer
-if 'synth' not in st.session_state:
-    st.session_state.synth = ParametricSynth(sample_rate=44100, base_freq=220.0)
+# Engine selection
+st.sidebar.markdown("## 🎚️ Sound Engine")
+engine_type = st.sidebar.radio(
+    "Select synthesis engine:",
+    options=["Parametric", "DDSP", "Symbolic"],
+    index=0,
+    help="Different engines provide different sonic characteristics"
+)
+
+# Initialize synthesizer based on selection
+if 'current_engine' not in st.session_state or st.session_state.current_engine != engine_type:
+    st.session_state.current_engine = engine_type
+    if engine_type == "Parametric":
+        st.session_state.synth = ParametricSynth(sample_rate=44100, base_freq=220.0)
+    elif engine_type == "DDSP":
+        st.session_state.synth = DDSPSynth(sample_rate=44100, base_freq=165.0)
+    else:  # Symbolic
+        st.session_state.synth = SymbolicSynth(sample_rate=44100)
 
 # Control parameters
 st.sidebar.markdown("## 🎛️ Control Parameters")
 st.sidebar.markdown("These would come from the mapping stage in a live performance:")
 
-control_1 = st.sidebar.slider(
-    "**Control 1** → Tempo/Density",
-    min_value=0.0,
-    max_value=1.0,
-    value=0.5,
-    step=0.05,
-    help="Event rate: 0=sparse, 1=dense"
-)
+# Different parameter names based on engine
+if engine_type == "Parametric":
+    control_1 = st.sidebar.slider(
+        "**Control 1** → Tempo/Density",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.5,
+        step=0.05,
+        help="Event rate: 0=sparse, 1=dense"
+    )
+    
+    control_2 = st.sidebar.slider(
+        "**Control 2** → Harmonic Tension",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.3,
+        step=0.05,
+        help="Dissonance: 0=consonant, 1=dissonant"
+    )
+    
+    control_3 = st.sidebar.slider(
+        "**Control 3** → Spectral Brightness",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.6,
+        step=0.05,
+        help="Timbre: 0=dark, 1=bright"
+    )
+    
+    control_4 = st.sidebar.slider(
+        "**Control 4** → Noise Balance",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.2,
+        step=0.05,
+        help="Texture: 0=pure tones, 1=noisy"
+    )
 
-control_2 = st.sidebar.slider(
-    "**Control 2** → Harmonic Tension",
-    min_value=0.0,
-    max_value=1.0,
-    value=0.3,
-    step=0.05,
-    help="Dissonance: 0=consonant, 1=dissonant"
-)
+elif engine_type == "DDSP":
+    control_1 = st.sidebar.slider(
+        "**Control 1** → Pitch Range",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.5,
+        step=0.05,
+        help="Base frequency: 0=low, 1=high"
+    )
+    
+    control_2 = st.sidebar.slider(
+        "**Control 2** → Brightness",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.6,
+        step=0.05,
+        help="Spectral centroid: 0=dark, 1=bright"
+    )
+    
+    control_3 = st.sidebar.slider(
+        "**Control 3** → Roughness",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.3,
+        step=0.05,
+        help="Inharmonicity/noise: 0=smooth, 1=rough"
+    )
+    
+    control_4 = st.sidebar.slider(
+        "**Control 4** → Amplitude",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.5,
+        step=0.05,
+        help="Volume envelope: 0=quiet, 1=loud"
+    )
 
-control_3 = st.sidebar.slider(
-    "**Control 3** → Spectral Brightness",
-    min_value=0.0,
-    max_value=1.0,
-    value=0.6,
-    step=0.05,
-    help="Timbre: 0=dark, 1=bright"
-)
-
-control_4 = st.sidebar.slider(
-    "**Control 4** → Noise Balance",
-    min_value=0.0,
-    max_value=1.0,
-    value=0.2,
-    step=0.05,
-    help="Texture: 0=pure tones, 1=noisy"
-)
+else:  # Symbolic
+    control_1 = st.sidebar.slider(
+        "**Control 1** → Note Density",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.4,
+        step=0.05,
+        help="Trigger rate: 0=sparse, 1=dense"
+    )
+    
+    control_2 = st.sidebar.slider(
+        "**Control 2** → Pitch Center",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.5,
+        step=0.05,
+        help="Central pitch: 0=low, 1=high"
+    )
+    
+    control_3 = st.sidebar.slider(
+        "**Control 3** → Note Duration",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.5,
+        step=0.05,
+        help="Sustain length: 0=short, 1=long"
+    )
+    
+    control_4 = st.sidebar.slider(
+        "**Control 4** → Harmonic Complexity",
+        min_value=0.0,
+        max_value=1.0,
+        value=0.5,
+        step=0.05,
+        help="Number of harmonics: 0=simple, 1=rich"
+    )
 
 duration = st.sidebar.slider(
     "**Duration** (seconds)",
