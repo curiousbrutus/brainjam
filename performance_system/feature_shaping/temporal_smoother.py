@@ -58,6 +58,9 @@ class TemporalSmoother:
                                for i in range(self.n_features)])
         else:
             x_array = np.asarray(x)
+            # Flatten if 2D array was passed (e.g., shape (1, 4))
+            if x_array.ndim > 1:
+                x_array = x_array.flatten()
         
         # Add to history
         self.history.append(x_array.copy())

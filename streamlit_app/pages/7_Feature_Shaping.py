@@ -12,7 +12,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from utils import MockSignalGenerator
+from performance_system.controllers.mock_eeg import MockEEGController
 from performance_system.feature_shaping import PCAReducer, TemporalSmoother
 
 st.set_page_config(page_title="Feature Shaping", page_icon="🔬", layout="wide")
@@ -39,8 +39,8 @@ These latents represent:
 """)
 
 # Initialize components
-if 'signal_gen' not in st.session_state:
-    st.session_state.signal_gen = MockSignalGenerator(fs=250)
+if 'signal_gen' not in st.session_state or not isinstance(st.session_state.signal_gen, MockEEGController):
+    st.session_state.signal_gen = MockEEGController(fs=250)
 
 # Sidebar controls
 st.sidebar.markdown("## 🎛️ Feature Shaping Settings")
@@ -76,10 +76,9 @@ elif shaping_method == "PCA Reduction":
        st.session_state.get('pca_components') != n_components:
         # Generate training data
         training_data = []
-        temp_gen = MockSignalGenerator(fs=250)
+        temp_gen = MockEEGController(fs=250)
         for _ in range(100):
-            signal = temp_gen.generate_chunk(duration=0.5)
-            features = temp_gen.extract_features(signal)
+            features = temp_gen.get_control_vector(duration=0.5)
             feature_array = np.array([features.get(f'control_{i}', 0.5) 
                                      for i in range(1, 5)])
             training_data.append(feature_array)
@@ -103,19 +102,24 @@ raw_signals = []
 shaped_outputs = []
 
 for _ in range(n_samples):
-    # Generate raw signal
-    signal = st.session_state.signal_gen.generate_chunk(duration=0.5)
-    features = st.session_state.signal_gen.extract_features(signal)
+    # Generate raw signal features
+    features = st.session_state.signal_gen.get_control_vector(duration=0.5)
+    
+    # Convert features to array for processing
+    feature_array = np.array([features.get(f'control_{i}', 0.5) for i in range(1, 5)])
     
     # Apply shaping
     if shaping_method == "Temporal Smoothing":
-        shaped = st.session_state.smoother.update(features)
+        shaped_dict = st.session_state.smoother.update(feature_array)
+        shaped_output = np.array([shaped_dict.get(f'control_{i}', 0.5) for i in range(1, 5)])
     else:  # PCA
-        shaped = st.session_state.pca.transform(features)
+        shaped_dict = st.session_state.pca.transform(feature_array)
+        # Extract values from dict - PCA returns latent_1, latent_2, etc.
+        n_latents = len(shaped_dict)
+        shaped_output = np.array([shaped_dict.get(f'latent_{i+1}', 0.5) for i in range(n_latents)])
     
-    raw_signals.append([features.get(f'control_{i}', 0.5) for i in range(1, 5)])
-    shaped_outputs.append([shaped.get(list(shaped.keys())[i], 0.5) 
-                          for i in range(len(shaped))])
+    raw_signals.append(feature_array)
+    shaped_outputs.append(shaped_output)
 
 raw_signals = np.array(raw_signals)
 shaped_outputs = np.array(shaped_outputs)
