@@ -60,11 +60,25 @@ if 'performance_history' not in st.session_state:
 st.sidebar.markdown("## 🎛️ Performance Settings")
 
 st.sidebar.markdown("### Signal Source")
-signal_source = st.sidebar.radio(
+signal_source = st.sidebar.selectbox(
     "Control source:",
-    options=["Mock EEG", "Manual Sliders"],
+    options=[
+        "Mock EEG",
+        "Manual Sliders",
+        "Realtime EEG (LSL) - Experimental",
+        "MIDI Controller - Experimental", 
+        "OSC Controller - Experimental"
+    ],
     index=0
 )
+
+# Show warning for experimental sources
+if "Experimental" in signal_source:
+    st.sidebar.warning(
+        "⚠️ **Experimental / Placeholder**\n\n"
+        "This device is not yet fully implemented. "
+        "It will use mock data for now."
+    )
 
 if signal_source == "Mock EEG":
     st.sidebar.markdown("### Mock Signal Parameters")

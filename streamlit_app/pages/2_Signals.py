@@ -227,6 +227,94 @@ This variability is **not a bug** — it's what makes the system expressive!
 
 st.markdown("---")
 
+# Signal source types
+st.markdown("## 🎚️ Signal Source Types in BrainJam")
+
+st.markdown("""
+BrainJam is designed to work with multiple signal sources, each with different characteristics:
+""")
+
+col1, col2 = st.columns([1, 1])
+
+with col1:
+    st.markdown("""
+    ### 🧪 **Mock Signals** (Current)
+    
+    **Status**: ✅ Fully Implemented
+    
+    What you're seeing on this page:
+    - Simulated brain-like signals
+    - Structured test data
+    - Perfect for development and demos
+    - No hardware required
+    
+    **Use Cases**:
+    - System development
+    - Mapping design
+    - Performance rehearsal
+    - Educational demonstrations
+    """)
+    
+    st.markdown("""
+    ### 🧠 **Real-Time EEG (LSL)** 
+    
+    **Status**: ⚠️ Experimental / Placeholder
+    
+    Future integration via Lab Streaming Layer:
+    - Consumer EEG headsets (Muse, OpenBCI, etc.)
+    - Medical-grade EEG systems
+    - Band-power feature extraction
+    - <100ms latency
+    
+    **Requirements**:
+    - Hardware: EEG headset
+    - Software: `pylsl` library
+    - Setup: Stream configuration
+    """)
+
+with col2:
+    st.markdown("""
+    ### 🎹 **MIDI Controllers**
+    
+    **Status**: ⚠️ Experimental / Placeholder
+    
+    Standard MIDI control integration:
+    - Keyboards, pads, breath controllers
+    - CC (Continuous Controller) mapping
+    - Combine with brain signals
+    - Familiar interface for musicians
+    
+    **Requirements**:
+    - Hardware: MIDI controller
+    - Software: `mido` or `python-rtmidi`
+    - Setup: Port configuration
+    """)
+    
+    st.markdown("""
+    ### 📡 **OSC (Open Sound Control)**
+    
+    **Status**: ⚠️ Experimental / Placeholder
+    
+    Network-based control protocol:
+    - TouchOSC, Lemur, Max/MSP
+    - Flexible address mapping
+    - Multi-device support
+    - Over WiFi or ethernet
+    
+    **Requirements**:
+    - Software: `python-osc` library
+    - Setup: IP address and port
+    - Controller app on phone/tablet
+    """)
+
+st.info("""
+**Note**: Experimental devices currently use mock data. They demonstrate the interface 
+but don't connect to real hardware yet. This shows how BrainJam is designed for 
+**modularity** and **future expansion**.
+""")
+
+st.markdown("---")
+
 # Comparison to other modalities
 st.markdown("## 🎸 Comparison to Other Control Modalities")
 
@@ -238,6 +326,7 @@ st.markdown("""
 | **Gesture (IMU)** | ✅ Yes | ⚠️ Medium | ~20ms | High |
 | **Breath Controller** | ✅ Yes | ✅ Low | ~15ms | High |
 | **Touch/Pressure** | ✅ Yes | ✅ Low | ~5ms | High |
+| **OSC** | ✅ Yes | ✅ Low | ~20ms | High |
 
 **Key Point**: Brain signals are **noisier and slower** than traditional controls, 
 but offer **alternative embodiment** — hands-free, internal, different motor pathways.
