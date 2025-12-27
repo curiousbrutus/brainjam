@@ -564,6 +564,142 @@ See: [`ethics.md`](ethics.md)
 
 ---
 
+## Real-Time Devices & Future Integration
+
+BrainJam is designed with **modularity** and **performance awareness** as core principles. While currently operating with mock signals, the system architecture supports integration with real-time devices.
+
+### Signal Source Abstraction
+
+All signal sources implement a unified `BaseDevice` interface:
+
+```python
+from performance_system.signals.realtime import BaseDevice
+
+# All devices expose the same method
+control_frame = device.get_control_frame()
+# Returns: {'intensity': 0.7, 'density': 0.4, 'variation': 0.6, ...}
+```
+
+### Supported Device Types
+
+#### 🧠 Real-Time EEG via Lab Streaming Layer (LSL)
+
+**Status**: ⚠️ Experimental / Scaffolded
+
+Integration for consumer and research-grade EEG systems:
+- **Hardware**: Muse, OpenBCI, Emotiv, medical EEG systems
+- **Protocol**: Lab Streaming Layer (LSL) — standard for biosignal streaming
+- **Features**: Band-power extraction, real-time processing
+- **Latency**: Target <50ms from signal to feature
+
+**Implementation**: See `performance_system/signals/realtime/eeg_lsl_stub.py`
+
+**Requirements**: `pip install pylsl`, EEG hardware setup
+
+**Literature**: Miranda & Castet (2014). *Guide to Brain-Computer Music Interfacing*
+
+#### 🎹 MIDI Controllers
+
+**Status**: ⚠️ Experimental / Scaffolded
+
+Standard MIDI integration for musical control:
+- **Hardware**: Keyboards, pads, breath controllers, expression pedals
+- **Protocol**: MIDI CC (Continuous Controller) messages
+- **Use Case**: Combine brain signals with traditional control, or use as baseline for comparison
+- **Latency**: ~10ms
+
+**Implementation**: See `performance_system/signals/realtime/midi_stub.py`
+
+**Requirements**: `pip install mido python-rtmidi`, MIDI controller
+
+#### 📡 OSC (Open Sound Control)
+
+**Status**: ⚠️ Experimental / Scaffolded
+
+Network-based control for flexible device integration:
+- **Hardware**: TouchOSC apps, Max/MSP, custom controllers
+- **Protocol**: OSC over UDP/TCP
+- **Use Case**: Wireless control, multi-device setups, custom interfaces
+- **Latency**: ~20ms (network dependent)
+
+**Implementation**: See `performance_system/signals/realtime/osc_stub.py`
+
+**Requirements**: `pip install python-osc`, network configuration
+
+### Generative Sound Engines
+
+BrainJam's architecture supports integration with generative AI music models:
+
+#### 🎵 Suno-Like Systems
+
+**Key Principle**: Brain signals **modulate** generation parameters; they do NOT generate music directly.
+
+**Control Flow**:
+```
+Brain Signals → Control Parameters → Modulate Generation → Audio Output
+```
+
+**Implementation**: See `performance_system/sound_engines/generative/`
+
+**Available Adapters**:
+- `RealtimeSynthAdapter` — Wraps existing synthesis engines
+- `MusicGenAdapter` — Meta AudioCraft integration (stub)
+- `SunoLikeAdapter` — Simulates generative control locally (no API required)
+
+**Status**: Conceptual/simulated. Demonstrates interface without requiring paid APIs or heavy compute.
+
+### Design Philosophy
+
+**Visibility > Completeness**
+- Real-time devices are acknowledged and scaffolded
+- Interface defined even if implementation pending
+- Mock data used to demonstrate functionality
+
+**Playability > Decoding**
+- Focus on continuous, expressive control
+- Prioritize low latency and responsiveness
+- Maintain performer agency
+
+**Honesty > Ambition**
+- Clearly label experimental components
+- No false promises about functionality
+- Transparent about current limitations
+
+### Integration Roadmap
+
+**Current** (Mock Signals):
+- ✅ Structured test signals
+- ✅ Consistent interface
+- ✅ Full system functionality
+
+**Near-Term** (Real-Time Devices):
+- 🔜 LSL EEG integration
+- 🔜 MIDI controller support
+- 🔜 OSC network control
+
+**Long-Term** (Advanced Features):
+- 🔮 Pretrained EEG encoders (EEGNet, braindecode)
+- 🔮 Generative AI integration (MusicGen, diffusion models)
+- 🔮 Multi-modal fusion (EEG + gesture + MIDI)
+
+### Literature & Context
+
+**Brain-Computer Music Interfacing**:
+- Miranda, E. R., & Castet, J. (Eds.). (2014). *Guide to Brain-Computer Music Interfacing*. Springer.
+- Grierson, M. (2008). "Composing with brainwaves: Minimal trial P300b recognition as an indication of subjective preference."
+
+**Generative Music Systems**:
+- Agostinelli et al. (2023). "MusicGen: Simple and controllable music generation."
+- Dhariwal et al. (2020). "Jukebox: A generative model for music."
+
+**Performance Systems**:
+- Tanaka, A. (2006). "Interaction, experience and the future of music."
+- Cook, P. R. (2001). "Principles for designing computer music controllers."
+
+**Note**: BrainJam emphasizes **performance-ready modularity** while maintaining **research transparency**. Real-time devices are designed as plug-and-play modules that don't compromise the system's core functionality when unavailable.
+
+---
+
 ## Development Roadmap
 
 ### Phase 1: Foundation ✅ COMPLETE
