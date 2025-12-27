@@ -7,5 +7,6 @@ These models optimize for smoothness, stability, and controllability - NOT accur
 
 from .linear_mapper import LinearMapper
 from .mlp_mapper import MLPMapper
+from .expressive_mapper import ExpressiveMapper
 
-__all__ = ['LinearMapper', 'MLPMapper']
+__all__ = ['LinearMapper', 'MLPMapper', 'ExpressiveMapper']
