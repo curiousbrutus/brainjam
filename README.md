@@ -1,7 +1,7 @@
 # BrainJam: AI-Mediated Musical Performance System
 
 A performance instrument and AI co-performer exploring human–AI interaction in live music.
-Developeding AI for Artistic Performances.
+Developed as part of MishMash WP1: AI for Artistic Performances.
 
 [![Performance System](https://img.shields.io/badge/System-Performance_Instrument-blue)]()
 [![Research](https://img.shields.io/badge/Research-MishMash_WP1-green)]()

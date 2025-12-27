@@ -7,6 +7,7 @@ Audio generation and playback helpers for the Streamlit GUI
 import numpy as np
 import io
 import base64
+import wave
 
 
 def generate_simple_tone(duration, frequency, sample_rate=44100):
@@ -37,8 +38,6 @@ def audio_to_bytes(audio, sample_rate=44100):
     Returns:
         WAV file bytes
     """
-    import wave
-    
     # Convert to 16-bit PCM
     audio_int = np.int16(audio * 32767)
     

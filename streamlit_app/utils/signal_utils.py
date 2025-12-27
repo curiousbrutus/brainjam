@@ -6,6 +6,9 @@ Mock signal generators for the Streamlit GUI
 
 import numpy as np
 
+# Noise scaling constants
+DEFAULT_NOISE_SCALE = 2.0  # Standard deviation for feature noise
+
 
 class MockSignalGenerator:
     """
@@ -70,9 +73,9 @@ class MockSignalGenerator:
         # In a real system, would use FFT/bandpass filters
         # Here we use the known amplitudes with some noise
         return {
-            'theta_power': float(theta_amp + 2 * np.random.randn()),
-            'alpha_power': float(alpha_amp + 2 * np.random.randn()),
-            'beta_power': float(beta_amp + 2 * np.random.randn()),
+            'theta_power': float(theta_amp + DEFAULT_NOISE_SCALE * np.random.randn()),
+            'alpha_power': float(alpha_amp + DEFAULT_NOISE_SCALE * np.random.randn()),
+            'beta_power': float(beta_amp + DEFAULT_NOISE_SCALE * np.random.randn()),
         }
     
     def reset(self):
