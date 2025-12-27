@@ -58,6 +58,11 @@ ENV/
 *.flac
 *.ogg
 
+# Demo outputs
+demo*.wav
+demo*.png
+my_first_brainjam.wav
+
 # Neuroimaging data
 *.nii
 *.nii.gz
