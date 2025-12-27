@@ -13,5 +13,6 @@ __version__ = "0.1.0"
 from . import controllers
 from . import sound_engines
 from . import mapping_models
+from . import feature_shaping
 
-__all__ = ['controllers', 'sound_engines', 'mapping_models']
+__all__ = ['controllers', 'sound_engines', 'mapping_models', 'feature_shaping']
