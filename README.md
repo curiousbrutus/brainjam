@@ -34,6 +34,38 @@ Developeding AI for Artistic Performances.
 
 ---
 
+## 🎛️ Interactive GUI (NEW!)
+
+**Try the Streamlit GUI** to explore BrainJam visually and interactively:
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the GUI
+streamlit run streamlit_app/app.py
+# Or use the helper script
+./run_gui.sh
+```
+
+The GUI provides:
+- 📖 **Overview** — Understand system architecture and philosophy
+- 📊 **Signals** — Explore mock EEG/fNIRS signal generation
+- 🔀 **Mapping** — Experiment with control design strategies
+- 🔊 **Sound Engine** — Hear how controls affect synthesis
+- 🎭 **Live Performance** — Try the complete system MVP
+- 🎨 **Use Cases** — Connect to research applications
+
+**Perfect for**:
+- Understanding the system in 5 minutes
+- Interactive exploration and experimentation
+- Demonstrating to supervisors, collaborators, or audiences
+- Teaching human-AI interaction concepts
+
+See [`streamlit_app/README.md`](streamlit_app/README.md) for details.
+
+---
+
 ## What BrainJam Is NOT
 
 🚫 **NOT brain decoding** — We do not decode thoughts, intentions, or mental content
@@ -102,6 +134,30 @@ Target: **< 100ms** end-to-end
 ---
 
 ## Live Performance MVP
+
+### Quick Start
+
+**Option 1: Interactive GUI (Recommended for First-Time Users)**
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Streamlit GUI
+streamlit run streamlit_app/app.py
+```
+
+Open your browser to explore the system interactively!
+
+**Option 2: Jupyter Notebooks**
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the real-time demo
+jupyter notebook notebooks/real_time_control_to_sound.ipynb
+```
 
 ### Current Implementation
 
@@ -176,6 +232,18 @@ jupyter notebook notebooks/real_time_control_to_sound.ipynb
 
 ```
 brainjam/
+│
+├── streamlit_app/              # 🎛️ Interactive GUI (NEW!)
+│   ├── app.py                  # Main entry point
+│   ├── pages/                  # Multi-page application
+│   │   ├── 1_Overview.py      # System introduction
+│   │   ├── 2_Signals.py       # Signal simulation
+│   │   ├── 3_Mapping.py       # Control design
+│   │   ├── 4_Sound_Engine.py  # Sound synthesis
+│   │   ├── 5_Live_Performance.py  # Complete system demo
+│   │   └── 6_Use_Cases.py     # Research applications
+│   ├── utils/                  # GUI utilities
+│   └── README.md              # GUI documentation
 │
 ├── performance_system/         # Core performance system
 │   ├── controllers/            # Input: EEG, keyboard, MIDI, etc.
