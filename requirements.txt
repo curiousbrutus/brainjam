@@ -49,13 +49,17 @@ plotly>=5.14.0
 # pyyaml>=6.0
 
 # ----------------------------------------------------------------------------
-# DEEP LEARNING (Only needed for advanced ML models)
+# DEEP LEARNING (Required for ML/DL audio pipeline)
 # ----------------------------------------------------------------------------
 
-# Uncomment if using deep learning mapping models or generative models
-# torch>=2.0.0
-# torchaudio>=2.0.0
-# transformers>=4.30.0
+# PyTorch for autoencoder and latent models
+torch>=2.0.0
+torchaudio>=2.0.0
+
+# For MIDI synthesis (FluidSynth backend)
+midi2audio>=0.1.1
+pretty_midi>=0.2.9
+pyfluidsynth>=1.3.0
 
 # ----------------------------------------------------------------------------
 # NEUROIMAGING (Only needed for real EEG/fNIRS/fMRI data)

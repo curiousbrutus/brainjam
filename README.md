@@ -375,58 +375,124 @@ audio = synth.generate(0.1, mapped_controls)
 
 ## ML/DL Pipeline
 
-### Stage 1: Controller Layer
+### Stage 1: Signal Input & Feature Shaping
 
-**Purpose**: Convert raw signals to low-dimensional control vectors
+**Purpose**: Convert raw signals to low-dimensional latent controls (2-8 dimensions)
 
-**Supported inputs**:
-- Mock EEG (structured random signals)
+**Input Sources**:
+- Mock EEG (structured random signals for testing)
 - Keyboard (manual control)
 - Real EEG/fNIRS (optional)
 
-**Processing**:
-- Band-power extraction (for EEG)
-- Temporal smoothing
-- Normalization to [0, 1]
+**Feature Shaping (NEW)**:
+- **PCA Reducer**: Dimensionality reduction via Principal Component Analysis
+- **Autoencoder**: PyTorch-based neural compression to latent space
+- **Temporal Smoother**: Sliding window smoothing with exponential/median filtering
 
-**Output**: 4D control vector (continuous, 0-1 range)
+**Output**: 2-8 latent controls representing intensity, tension, volatility, density (NOT mental states)
 
-### Stage 2: Mapping Layer
+### Stage 2: Expressive Mapping Layer
 
-**Purpose**: Map controls → synthesis parameters
+**Purpose**: Map latent controls → synthesis parameters with artistic expression
 
-**Models**:
-- Linear regression (baseline)
-- Small MLP (8 hidden units)
-- Temporal smoothing filter
+**Mapping Models**:
+- **Linear Mapper**: Simple affine transformation with temporal smoothing
+- **MLP Mapper**: Small neural network (8 hidden units) for nonlinear mapping
+- **Expressive Mapper** (NEW): Many-to-one mappings with hysteresis, drift, and thresholds
 
-**Optimization objectives**:
-- ✓ Smoothness (minimize frame-to-frame jitter)
-- ✓ Stability (consistent behavior)
-- ✓ Controllability (full parameter range coverage)
-- ✗ NOT accuracy or classification performance
+**Expressive Features**:
+- Many-to-one mappings (multiple inputs → each output)
+- Hysteresis (history-dependent response)
+- Autonomous parameter drift
+- Threshold-based regions (vs continuous precision)
+- Inertia (resistance to rapid change)
 
-### Stage 3: Sound Generation
+**Philosophy**: Following Miranda (2014), expressivity emerges from interaction, not precision
+
+### Stage 3: Sound Engines
 
 **Purpose**: Generate audio from control parameters
 
-**Engines**:
-- Parametric synth (real-time, <50ms)
-- DDSP-style (planned)
-- Diffusion models (offline prototypes)
+**Available Engines**:
+- **Parametric Synth**: Additive/subtractive synthesis with real-time control
+- **DDSP Synth** (NEW): Harmonic oscillator + filtered noise (DDSP-style)
+- **Symbolic Synth** (NEW): Note-based synthesis with MIDI-like events
 
-**Controllable parameters**:
-- Tempo/density
-- Harmonic tension
-- Spectral brightness
-- Noise/tone balance
+**Controllable Parameters**:
+- Pitch range / note density
+- Harmonic complexity / brightness
+- Spectral brightness / roughness
+- Noise balance / amplitude
 
-### Stage 4: Real-Time Loop
+### Stage 4: Real-Time Performance Loop
 
 ```
-Input (10-40ms) → Extract Features (10-30ms) → 
-Map (<5ms) → Synthesize (20-50ms) → 
-Audio Output → Performer Feedback
+Brain Signal (10-40ms) → 
+Feature Shaping (10-30ms) → 
+Expressive Mapping (<5ms) → 
+Sound Synthesis (20-50ms) → 
+Audio Output → 
+Performer Feedback
+```
+
+**Target Latency**: < 100ms end-to-end ✓
+
+### Stage 5: Interaction Logging
+
+**Performance Logger** tracks:
+- Latency measurements (mean, std, p95)
+- Stability metrics (parameter variance)
+- Controllability assessment (input-output correlation)
+- Performer-rated agency (subjective 0-10 scale)
+- Perceived responsiveness
+
+---
+
+## MVP Demonstrations
+
+### Demo 1: Brain → Continuous Sound
+
+**Concept**: Pure textural ambient soundscape with no discrete rhythm
+
+**Features**:
+- EEG-like signals control timbre and density
+- No notes or rhythm - just evolving texture
+- Temporal smoothing for stable sound
+- 30-second demonstration
+
+**Run**: `python performance_system/interaction_demos/demo1_continuous_sound.py`
+
+### Demo 2: AI as Co-Performer
+
+**Concept**: Musical dialogue between performer and AI system
+
+**Features**:
+- Performer triggers events via brain signals
+- AI responds with timing variations
+- Brain signal biases AI behavior (doesn't command it)
+- Call-and-response patterns emerge
+- 40-second demonstration
+
+**Run**: `python performance_system/interaction_demos/demo2_ai_coperformer.py`
+
+### Demo 3: Learning Through Practice
+
+**Concept**: Performer improves control through repeated practice
+
+**Features**:
+- Same mapping throughout session
+- Simulated learning (increasing focus)
+- Stability visualization over time
+- Learning curve shows controllability improvement
+- 60-second demonstration with visualization
+
+**Run**: `python performance_system/interaction_demos/demo3_learning_practice.py`
+
+### Run All Demos
+
+**Run all three demos in sequence**:
+```bash
+python performance_system/interaction_demos/run_all_demos.py
 ```
 
 ---
@@ -500,29 +566,34 @@ See: [`ethics.md`](ethics.md)
 
 ## Development Roadmap
 
-### Phase 1: Foundation (Current)
+### Phase 1: Foundation ✅ COMPLETE
 - [x] Mock controller system
-- [x] Real-time synthesizer
-- [x] Simple mapping models
-- [x] Working demos
+- [x] Real-time synthesizers (Parametric, DDSP, Symbolic)
+- [x] Mapping models (Linear, MLP, Expressive)
+- [x] Feature shaping (PCA, Autoencoder, Temporal)
+- [x] Working demos (3 MVP demonstrations)
+- [x] Performance logging and metrics
+- [x] Streamlit GUI
 
-### Phase 2: AI Co-Performer (Next)
-- [ ] Temporal prediction models
-- [ ] Call-and-response patterns
-- [ ] Adaptive timing
-- [ ] Multi-agent interaction
+### Phase 2: Extended Capabilities
+- [ ] Real EEG/fNIRS integration
+- [ ] Advanced AI co-performer behaviors
+- [ ] Multi-agent interaction patterns
+- [ ] Additional sound engines (granular, FM)
+- [ ] Preset management system
 
 ### Phase 3: User Studies
 - [ ] Pilot with 5-10 musicians
 - [ ] Agency and flow evaluation
-- [ ] Iterate on mappings
-- [ ] Public demonstrations
+- [ ] Iterate on mappings based on feedback
+- [ ] Public demonstrations and performances
+- [ ] Document case studies
 
-### Phase 4: Advanced Features
-- [ ] Real EEG/fNIRS integration
-- [ ] DDSP-based synthesis
-- [ ] Diffusion model exploration
-- [ ] Multi-performer systems
+### Phase 4: Research Publications
+- [ ] Human-AI interaction papers
+- [ ] Performance system documentation
+- [ ] Artistic case studies
+- [ ] Technical implementation reports
 
 ---
 
