@@ -66,6 +66,41 @@ See [`streamlit_app/README.md`](streamlit_app/README.md) for details.
 
 ---
 
+## 📸 Media & Visuals
+
+Explore BrainJam through videos, screenshots, and diagrams located in the [`media/`](media/) folder:
+
+### 🎥 Video Demonstrations
+
+- **[vid_bj.mp4](media/vid_bj.mp4)** — Prototype demonstration showing the BrainJam system in action
+- **[BrainJam__Nervous_System_Music.mp4](media/BrainJam__Nervous_System_Music.mp4)** — Conceptual explanation of the nervous system music approach and system philosophy
+
+### 🖼️ Screenshots & Diagrams
+
+- **[Mind Map.png](media/Mind%20Map.png)** — Visual mindmap of the BrainJam system architecture, connections, and research context
+- **[gui_person.png](media/gui_person.png)** — AI-generated visualization of the end-user interacting with the BrainJam interface
+- **[st-gui-1.png](media/st-gui-1.png)** — Streamlit GUI screenshot showing the interactive interface
+- **[st-gui-2.png](media/st-gui-2.png)** — Additional Streamlit GUI view
+- **[st-gui-3.png](media/st-gui-3.png)** — More Streamlit GUI interface examples
+
+### 📂 Media Folder Purpose
+
+The media folder contains:
+- **Prototype videos** for understanding system functionality
+- **Explanation videos** for conceptual grounding
+- **GUI screenshots** for visual documentation
+- **Diagrams and mindmaps** for architectural overview
+- **AI-generated imagery** for communicating user experience
+
+**Perfect for**:
+- Quick visual overview of the project
+- Presentations and demonstrations
+- Understanding system architecture visually
+- Sharing with collaborators and supervisors
+- Documentation and publications
+
+---
+
 ## What BrainJam Is NOT
 
 🚫 **NOT brain decoding** — We do not decode thoughts, intentions, or mental content
@@ -244,6 +279,13 @@ brainjam/
 │   │   └── 6_Use_Cases.py     # Research applications
 │   ├── utils/                  # GUI utilities
 │   └── README.md              # GUI documentation
+│
+├── media/                      # 📸 Videos, screenshots, and diagrams
+│   ├── vid_bj.mp4             # Prototype demonstration video
+│   ├── BrainJam__Nervous_System_Music.mp4  # System explanation video
+│   ├── Mind Map.png           # Architecture mindmap
+│   ├── gui_person.png         # AI-generated user interaction visual
+│   └── st-gui-*.png           # Streamlit GUI screenshots
 │
 ├── performance_system/         # Core performance system
 │   ├── controllers/            # Input: EEG, keyboard, MIDI, etc.
