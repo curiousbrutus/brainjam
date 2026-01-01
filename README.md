@@ -13,11 +13,11 @@ Developed as part of MishMash WP1: AI for Artistic Performances.
 
 ## 🎬 See It In Action
 
-<video src="https://github.com/curiousbrutus/brainjam/raw/main/media/vid_bj.mp4" controls width="100%" autoplay muted loop>
-  Your browser does not support the video tag.
-</video>
+https://github.com/curiousbrutus/brainjam/raw/main/media/vid_bj.mp4
 
 *Live prototype demonstration of BrainJam's brain-to-sound performance system*
+
+in the "media" folder 
 
 ---
 
