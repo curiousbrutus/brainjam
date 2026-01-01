@@ -92,6 +92,14 @@ class BioSignalInference:
         # Performance tracking
         self.processing_times = deque(maxlen=100)
         
+        # Normalization constants
+        self.EPSILON = 1e-8  # Small constant to avoid division by zero
+        self.AROUSAL_SIGMOID_SCALE = 2.0  # Scale for beta/alpha ratio sigmoid
+        self.AROUSAL_SIGMOID_CENTER = 1.0  # Center point for beta/alpha ratio
+        self.FNIRS_SLOPE_SCALE = 100.0  # Scale factor for fNIRS slope normalization
+        self.EMG_RMS_SCALE = 5.0  # Scale factor for EMG RMS sigmoid
+        self.EMG_RMS_CENTER = 0.5  # Center point for EMG RMS sigmoid
+        
     def process_frame(
         self,
         eeg_frame: np.ndarray,
@@ -174,10 +182,10 @@ class BioSignalInference:
         
         # Beta/Alpha ratio as arousal proxy
         # Add small epsilon to avoid division by zero
-        ratio = beta_power / (alpha_power + 1e-8)
+        ratio = beta_power / (alpha_power + self.EPSILON)
         
         # Normalize to [0, 1] using sigmoid-like transformation
-        arousal = 1.0 / (1.0 + np.exp(-2.0 * (ratio - 1.0)))
+        arousal = 1.0 / (1.0 + np.exp(-self.AROUSAL_SIGMOID_SCALE * (ratio - self.AROUSAL_SIGMOID_CENTER)))
         
         return float(np.clip(arousal, 0.0, 1.0))
     
@@ -205,11 +213,11 @@ class BioSignalInference:
         x = np.arange(n)
         
         # Simple least-squares slope: slope = cov(x,y) / var(x)
-        slope = np.cov(x, hbo2)[0, 1] / (np.var(x) + 1e-8)
+        slope = np.cov(x, hbo2)[0, 1] / (np.var(x) + self.EPSILON)
         
         # Normalize slope to [0, 1]
         # Typical fNIRS slopes are in range [-0.01, 0.01] per sample
-        normalized_slope = (np.tanh(slope * 100) + 1.0) / 2.0
+        normalized_slope = (np.tanh(slope * self.FNIRS_SLOPE_SCALE) + 1.0) / 2.0
         
         return float(np.clip(normalized_slope, 0.0, 1.0))
     
@@ -234,7 +242,7 @@ class BioSignalInference:
         # Normalize RMS to [0, 1]
         # Typical EMG RMS ranges from 0 to ~100 µV
         # Using adaptive normalization with sigmoid
-        normalized_rms = 1.0 / (1.0 + np.exp(-5.0 * (rms - 0.5)))
+        normalized_rms = 1.0 / (1.0 + np.exp(-self.EMG_RMS_SCALE * (rms - self.EMG_RMS_CENTER)))
         
         return float(np.clip(normalized_rms, 0.0, 1.0))
     
@@ -255,24 +263,23 @@ class BioSignalInference:
         Returns:
             Average band power across channels
         """
-        # Use PyTorch for faster FFT computation
-        signal_torch = torch.from_numpy(signal.T).float().to(self.device)  # (n_channels, n_samples)
+        # Use NumPy FFT for CPU efficiency (faster for small signal windows)
+        n_samples, n_channels = signal.shape
         
-        # Compute FFT
-        fft = torch.fft.rfft(signal_torch, dim=1)
-        power_spectrum = torch.abs(fft) ** 2
+        # Compute FFT for all channels
+        fft = np.fft.rfft(signal, axis=0)
+        power_spectrum = np.abs(fft) ** 2
         
         # Frequency bins
-        n_samples = signal.shape[0]
-        freqs = torch.fft.rfftfreq(n_samples, d=1.0/self.sample_rate).to(self.device)
+        freqs = np.fft.rfftfreq(n_samples, d=1.0/self.sample_rate)
         
         # Find indices for band
         band_mask = (freqs >= low_freq) & (freqs <= high_freq)
         
-        # Compute average power in band
-        band_power = power_spectrum[:, band_mask].mean().cpu().item()
+        # Compute average power in band across all channels
+        band_power = power_spectrum[band_mask, :].mean()
         
-        return band_power
+        return float(band_power)
     
     def _map_to_style_vector(
         self,
@@ -283,8 +290,13 @@ class BioSignalInference:
         """
         Map extracted features to style vector for ParametricSynth.
         
-        Uses softmax normalization to ensure outputs stay in [0, 1] range.
+        Applies independent normalization (not true softmax) to ensure outputs 
+        stay in [0, 1] range while preserving feature magnitudes.
         Applies conditional logic for tempo/density triggering.
+        
+        Note: We use sigmoid-based normalization rather than true softmax to
+        preserve relative feature magnitudes. True softmax would make features
+        sum to 1, losing information about absolute intensity levels.
         
         Args:
             arousal: EEG-based arousal [0, 1]
@@ -294,22 +306,11 @@ class BioSignalInference:
         Returns:
             Style vector with parameters for synthesis
         """
-        # Create raw feature vector
-        features = torch.tensor(
-            [arousal, cognitive_load, effort],
-            dtype=torch.float32,
-            device=self.device
-        )
-        
-        # Apply softmax for normalization (ensures sum to 1, all positive)
-        # Note: We multiply by 3 after softmax to restore [0,1] individual ranges
-        normalized = F.softmax(features / self.softmax_temp, dim=0) * 3.0
-        normalized = torch.clamp(normalized, 0.0, 1.0)
-        
-        # Extract normalized values
-        norm_arousal = normalized[0].cpu().item()
-        norm_cognitive = normalized[1].cpu().item()
-        norm_effort = normalized[2].cpu().item()
+        # Ensure features are already in [0, 1] range via input normalization
+        # No need for additional softmax since features are already normalized independently
+        norm_arousal = float(np.clip(arousal, 0.0, 1.0))
+        norm_cognitive = float(np.clip(cognitive_load, 0.0, 1.0))
+        norm_effort = float(np.clip(effort, 0.0, 1.0))
         
         # Map to synthesis parameters
         # tempo_density: driven by arousal and effort
