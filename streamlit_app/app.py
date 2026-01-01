@@ -61,6 +61,9 @@ MVP demo — perform with the system in real time
 ### 🎨 **6. Use Cases**
 WP1 alignment — artistic and research applications
 
+### 🧠 **8. BioSignal Inference** ⭐ NEW
+Multi-modal processing — EEG/fNIRS/EMG to latent style vectors
+
 ---
 
 ## 🚫 What BrainJam Is NOT

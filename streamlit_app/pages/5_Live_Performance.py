@@ -16,6 +16,13 @@ from utils import MockSignalGenerator, normalize_features, create_audio_player_h
 from performance_system.sound_engines import ParametricSynth
 from performance_system.mapping_models import LinearMapper
 
+# Import BioSignalInference
+try:
+    from src.bridge.latent_mapper import BioSignalInference
+    BIOSIGNAL_AVAILABLE = True
+except ImportError:
+    BIOSIGNAL_AVAILABLE = False
+
 st.set_page_config(page_title="Live Performance", page_icon="🎭", layout="wide")
 
 st.title("🎭 Live Performance: System MVP")
@@ -43,6 +50,15 @@ if 'perf_synth' not in st.session_state:
     
 if 'perf_mapper' not in st.session_state:
     st.session_state.perf_mapper = LinearMapper(n_inputs=4, n_outputs=4)
+
+if 'perf_biosignal' not in st.session_state and BIOSIGNAL_AVAILABLE:
+    st.session_state.perf_biosignal = BioSignalInference(
+        eeg_channels=8,
+        fnirs_channels=2,
+        emg_channels=1,
+        sample_rate=250.0,
+        buffer_size=500
+    )
     
 if 'performance_running' not in st.session_state:
     st.session_state.performance_running = False
@@ -64,6 +80,7 @@ signal_source = st.sidebar.selectbox(
     "Control source:",
     options=[
         "Mock EEG",
+        "BioSignal Inference (Multi-modal)",
         "Manual Sliders",
         "Realtime EEG (LSL) - Experimental",
         "MIDI Controller - Experimental", 
@@ -80,11 +97,26 @@ if "Experimental" in signal_source:
         "It will use mock data for now."
     )
 
+# Show info for BioSignal Inference
+if signal_source == "BioSignal Inference (Multi-modal)":
+    if not BIOSIGNAL_AVAILABLE:
+        st.sidebar.error("❌ BioSignal Inference module not available. Install dependencies.")
+        signal_source = "Mock EEG"  # Fallback
+    else:
+        st.sidebar.success("✅ BioSignal Inference Module Active")
+        st.sidebar.info("🧠 EEG (8ch) + 🩸 fNIRS (2ch) + 💪 EMG (1ch)")
+
 if signal_source == "Mock EEG":
     st.sidebar.markdown("### Mock Signal Parameters")
     arousal = st.sidebar.slider("Arousal", 0.0, 1.0, 0.5, 0.1)
     focus = st.sidebar.slider("Focus", 0.0, 1.0, 0.5, 0.1)
     variability = st.sidebar.slider("Variability", 0.0, 1.0, 0.3, 0.1)
+elif signal_source == "BioSignal Inference (Multi-modal)":
+    st.sidebar.markdown("### BioSignal Parameters")
+    biosig_eeg_arousal = st.sidebar.slider("EEG Arousal", 0.0, 1.0, 0.5, 0.05)
+    biosig_fnirs_load = st.sidebar.slider("fNIRS Cognitive Load", -1.0, 1.0, 0.2, 0.1)
+    biosig_emg_effort = st.sidebar.slider("EMG Effort", 0.0, 1.0, 0.4, 0.05)
+    biosig_noise = st.sidebar.slider("Signal Noise", 0.0, 0.3, 0.1, 0.05)
 else:
     st.sidebar.markdown("### Manual Controls")
     manual_c1 = st.sidebar.slider("Control 1", 0.0, 1.0, 0.5, 0.05)
@@ -149,6 +181,46 @@ with col1:
                     variability=variability
                 )
                 raw_controls = normalize_features(features)
+            elif signal_source == "BioSignal Inference (Multi-modal)" and BIOSIGNAL_AVAILABLE:
+                # Generate mock biosignals for BioSignalInference
+                duration = 0.1
+                n_samples = int(duration * st.session_state.perf_biosignal.sample_rate)
+                t = np.linspace(0, duration, n_samples)
+                
+                # EEG
+                eeg = np.zeros((n_samples, 8))
+                for ch in range(8):
+                    alpha = (1.0 - biosig_eeg_arousal) * np.sin(2 * np.pi * 10 * t + ch * 0.5)
+                    beta = biosig_eeg_arousal * 1.5 * np.sin(2 * np.pi * 20 * t + ch * 0.3)
+                    eeg[:, ch] = alpha + beta + biosig_noise * np.random.randn(n_samples)
+                
+                # fNIRS
+                fnirs = np.zeros((n_samples, 2))
+                fnirs[:, 0] = 0.5 + biosig_fnirs_load * t + biosig_noise * np.random.randn(n_samples)
+                fnirs[:, 1] = 0.5 - biosig_fnirs_load * 0.5 * t + biosig_noise * np.random.randn(n_samples)
+                
+                # EMG
+                emg = np.zeros((n_samples, 1))
+                emg[:, 0] = biosig_emg_effort + 0.2 * np.sin(2 * np.pi * 5 * t) + biosig_noise * np.random.randn(n_samples)
+                
+                # Process with BioSignalInference
+                style_vector = st.session_state.perf_biosignal.process_frame(eeg, fnirs, emg)
+                
+                # Use style vector directly (it's already in the right format for ParametricSynth)
+                raw_controls = {
+                    'tempo_density': style_vector['tempo_density'],
+                    'harmonic_tension': style_vector['harmonic_tension'],
+                    'spectral_brightness': style_vector['spectral_brightness'],
+                    'noise_balance': style_vector['noise_balance']
+                }
+                
+                # Show extracted features
+                st.info(f"🧠 Arousal: {style_vector['arousal']:.2f} | "
+                       f"🩸 Cognitive Load: {style_vector['cognitive_load']:.2f} | "
+                       f"💪 Effort: {style_vector['effort']:.2f}")
+                
+                if style_vector['arousal'] > 0.8 and style_vector['effort'] > 0.7:
+                    st.success("⚡ **TRIGGER ACTIVE** — 180 BPM rhythm!")
             else:
                 raw_controls = {
                     'control_1': manual_c1,
@@ -157,8 +229,11 @@ with col1:
                     'control_4': manual_c4,
                 }
             
-            # Apply mapping
-            mapped_controls = st.session_state.perf_mapper.map(raw_controls)
+            # Apply mapping (skip for BioSignalInference as it already outputs mapped values)
+            if signal_source == "BioSignal Inference (Multi-modal)" and BIOSIGNAL_AVAILABLE:
+                mapped_controls = raw_controls  # Already mapped
+            else:
+                mapped_controls = st.session_state.perf_mapper.map(raw_controls)
             
             # Generate audio
             audio = st.session_state.perf_synth.generate(2.0, mapped_controls)
