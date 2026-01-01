@@ -68,36 +68,39 @@ See [`streamlit_app/README.md`](streamlit_app/README.md) for details.
 
 ## 📸 Media & Visuals
 
-Explore BrainJam through videos, screenshots, and diagrams located in the [`media/`](media/) folder:
-
 ### 🎥 Video Demonstrations
 
-- **[vid_bj.mp4](media/vid_bj.mp4)** — Prototype demonstration showing the BrainJam system in action
-- **[BrainJam__Nervous_System_Music.mp4](media/BrainJam__Nervous_System_Music.mp4)** — Conceptual explanation of the nervous system music approach and system philosophy
+#### Prototype Demo
 
-### 🖼️ Screenshots & Diagrams
+https://github.com/user-attachments/assets/vid_bj.mp4
 
-- **[Mind Map.png](media/Mind%20Map.png)** — Visual mindmap of the BrainJam system architecture, connections, and research context
-- **[gui_person.png](media/gui_person.png)** — AI-generated visualization of the end-user interacting with the BrainJam interface
-- **[st-gui-1.png](media/st-gui-1.png)** — Streamlit GUI screenshot showing the interactive interface
-- **[st-gui-2.png](media/st-gui-2.png)** — Additional Streamlit GUI view
-- **[st-gui-3.png](media/st-gui-3.png)** — More Streamlit GUI interface examples
+*Prototype demonstration showing the BrainJam system in action*
 
-### 📂 Media Folder Purpose
+#### System Explanation
 
-The media folder contains:
-- **Prototype videos** for understanding system functionality
-- **Explanation videos** for conceptual grounding
-- **GUI screenshots** for visual documentation
-- **Diagrams and mindmaps** for architectural overview
-- **AI-generated imagery** for communicating user experience
+https://github.com/user-attachments/assets/BrainJam__Nervous_System_Music.mp4
 
-**Perfect for**:
-- Quick visual overview of the project
-- Presentations and demonstrations
-- Understanding system architecture visually
-- Sharing with collaborators and supervisors
-- Documentation and publications
+*Conceptual explanation of the nervous system music approach and system philosophy*
+
+### 🗺️ System Architecture Mindmap
+
+![BrainJam Architecture Mindmap](media/Mind%20Map.png)
+
+*Visual mindmap of the BrainJam system architecture, connections, and research context*
+
+### 🎨 User Interaction Visualization
+
+![BrainJam User Experience](media/gui_person.png)
+
+*AI-generated visualization of the end-user interacting with the BrainJam interface*
+
+### 🖥️ Streamlit GUI Interface
+
+![Streamlit GUI - View 1](media/st-gui-1.png)
+![Streamlit GUI - View 2](media/st-gui-2.png)
+![Streamlit GUI - View 3](media/st-gui-3.png)
+
+*Interactive Streamlit interface for exploring and experimenting with the BrainJam system*
 
 ---
 
