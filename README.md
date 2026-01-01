@@ -13,7 +13,9 @@ Developed as part of MishMash WP1: AI for Artistic Performances.
 
 ## 🎬 See It In Action
 
-https://github.com/curiousbrutus/brainjam/assets/vid_bj.mp4
+<video src="https://github.com/curiousbrutus/brainjam/raw/main/media/vid_bj.mp4" controls width="100%" autoplay muted loop>
+  Your browser does not support the video tag.
+</video>
 
 *Live prototype demonstration of BrainJam's brain-to-sound performance system*
 
@@ -90,7 +92,9 @@ See [`streamlit_app/README.md`](streamlit_app/README.md) for details.
 
 ### 🎓 Deep Dive: System Philosophy
 
-https://github.com/curiousbrutus/brainjam/assets/BrainJam__Nervous_System_Music.mp4
+<video src="https://github.com/curiousbrutus/brainjam/raw/main/media/BrainJam__Nervous_System_Music.mp4" controls width="100%">
+  Your browser does not support the video tag.
+</video>
 
 *Understanding the conceptual foundation: why nervous system signals, how AI mediates performance, and what makes this different from brain decoding*
 
