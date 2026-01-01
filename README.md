@@ -7,6 +7,16 @@ Developed as part of MishMash WP1: AI for Artistic Performances.
 [![Research](https://img.shields.io/badge/Research-MishMash_WP1-green)]()
 [![Status](https://img.shields.io/badge/Status-PhD_Prototype-yellow)]()
 
+![BrainJam User Experience](media/gui_person.png)
+
+---
+
+## 🎬 See It In Action
+
+https://github.com/curiousbrutus/brainjam/assets/vid_bj.mp4
+
+*Live prototype demonstration of BrainJam's brain-to-sound performance system*
+
 ---
 
 ## What BrainJam Is
@@ -62,45 +72,31 @@ The GUI provides:
 - Demonstrating to supervisors, collaborators, or audiences
 - Teaching human-AI interaction concepts
 
+### GUI Preview
+
+<table>
+  <tr>
+    <td><img src="media/st-gui-1.png" alt="Streamlit GUI Overview"/></td>
+    <td><img src="media/st-gui-2.png" alt="Signal Control"/></td>
+    <td><img src="media/st-gui-3.png" alt="Sound Engine"/></td>
+  </tr>
+</table>
+
 See [`streamlit_app/README.md`](streamlit_app/README.md) for details.
 
 ---
 
-## 📸 Media & Visuals
+## 📸 Learn More: Videos & Resources
 
-### 🎥 Video Demonstrations
+### 🎓 Deep Dive: System Philosophy
 
-#### Prototype Demo
+https://github.com/curiousbrutus/brainjam/assets/BrainJam__Nervous_System_Music.mp4
 
-https://github.com/user-attachments/assets/vid_bj.mp4
+*Understanding the conceptual foundation: why nervous system signals, how AI mediates performance, and what makes this different from brain decoding*
 
-*Prototype demonstration showing the BrainJam system in action*
+---
 
-#### System Explanation
-
-https://github.com/user-attachments/assets/BrainJam__Nervous_System_Music.mp4
-
-*Conceptual explanation of the nervous system music approach and system philosophy*
-
-### 🗺️ System Architecture Mindmap
-
-![BrainJam Architecture Mindmap](media/Mind%20Map.png)
-
-*Visual mindmap of the BrainJam system architecture, connections, and research context*
-
-### 🎨 User Interaction Visualization
-
-![BrainJam User Experience](media/gui_person.png)
-
-*AI-generated visualization of the end-user interacting with the BrainJam interface*
-
-### 🖥️ Streamlit GUI Interface
-
-![Streamlit GUI - View 1](media/st-gui-1.png)
-![Streamlit GUI - View 2](media/st-gui-2.png)
-![Streamlit GUI - View 3](media/st-gui-3.png)
-
-*Interactive Streamlit interface for exploring and experimenting with the BrainJam system*
+**All media resources** (videos, screenshots, diagrams) are available in the [`media/`](media/) folder for presentations, publications, and demonstrations.
 
 ---
 
@@ -119,6 +115,14 @@ https://github.com/user-attachments/assets/BrainJam__Nervous_System_Music.mp4
 ---
 
 ## System Architecture
+
+### 🗺️ Visual Overview
+
+![BrainJam Architecture Mindmap](media/Mind%20Map.png)
+
+*Complete system mindmap showing connections between components, research context, and design philosophy*
+
+### Technical Flow
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
