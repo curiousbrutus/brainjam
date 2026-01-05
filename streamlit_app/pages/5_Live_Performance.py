@@ -23,6 +23,13 @@ try:
 except ImportError:
     BIOSIGNAL_AVAILABLE = False
 
+# Import HybridAdaptiveAgent
+try:
+    from performance_system.agents import HybridAdaptiveAgent
+    HYBRID_AGENT_AVAILABLE = True
+except ImportError:
+    HYBRID_AGENT_AVAILABLE = False
+
 st.set_page_config(page_title="Live Performance", page_icon="🎭", layout="wide")
 
 st.title("🎭 Live Performance: System MVP")
@@ -58,6 +65,13 @@ if 'perf_biosignal' not in st.session_state and BIOSIGNAL_AVAILABLE:
         emg_channels=1,
         sample_rate=250.0,
         buffer_size=500
+    )
+
+if 'perf_hybrid_agent' not in st.session_state and HYBRID_AGENT_AVAILABLE:
+    st.session_state.perf_hybrid_agent = HybridAdaptiveAgent(
+        buffer_duration=10.0,
+        sample_rate=10.0,
+        model_path="models/adaptive_mapper.pth"
     )
     
 if 'performance_running' not in st.session_state:
@@ -128,6 +142,28 @@ st.sidebar.markdown("### Mapping")
 use_smoothing = st.sidebar.checkbox("Apply smoothing", value=True)
 smoothing_alpha = st.sidebar.slider("Smoothing amount", 0.0, 0.95, 0.7, 0.05) if use_smoothing else 0.0
 
+st.sidebar.markdown("### AI Co-Performer")
+enable_hybrid_agent = st.sidebar.checkbox(
+    "Enable Hybrid Adaptive Agent",
+    value=False,
+    help="Use adaptive AI co-performer with behavioral states"
+)
+
+if enable_hybrid_agent:
+    enable_ml_personalization = st.sidebar.checkbox(
+        "Enable ML personalization (requires trained model)",
+        value=False,
+        help="Load trained ML model from models/adaptive_mapper.pth for personalized responses"
+    )
+    
+    if enable_ml_personalization:
+        st.sidebar.info(
+            "🤖 ML personalization will be used if the model file exists at "
+            "`models/adaptive_mapper.pth`. Otherwise, symbolic rules will be used."
+        )
+else:
+    enable_ml_personalization = False
+
 st.sidebar.markdown("### Sound")
 base_freq = st.sidebar.selectbox(
     "Base frequency",
@@ -160,6 +196,8 @@ with col1:
             st.session_state.perf_signal_gen.reset()
             st.session_state.perf_synth.reset()
             st.session_state.perf_mapper.reset()
+            if 'perf_hybrid_agent' in st.session_state:
+                st.session_state.perf_hybrid_agent.reset()
             st.session_state.performance_history = {
                 'time': [],
                 'control_1': [],
@@ -234,6 +272,25 @@ with col1:
                 mapped_controls = raw_controls  # Already mapped
             else:
                 mapped_controls = st.session_state.perf_mapper.map(raw_controls)
+            
+            # Apply hybrid agent if enabled
+            if enable_hybrid_agent and HYBRID_AGENT_AVAILABLE and 'perf_hybrid_agent' in st.session_state:
+                # Get agent response
+                agent_response = st.session_state.perf_hybrid_agent.respond(mapped_controls)
+                agent_state = st.session_state.perf_hybrid_agent.get_state()
+                
+                # Blend agent response with performer controls
+                # Agent modulates density and tension
+                mapped_controls['control_2'] = agent_response['note_density']
+                mapped_controls['control_3'] = agent_response['harmonic_tension']
+                
+                # Show agent state
+                st.info(
+                    f"🤖 AI Agent: **{agent_state['behavioral_state'].upper()}** | "
+                    f"Intensity: {agent_state['ema_intensity']:.2f} | "
+                    f"Density: {agent_state['ema_density']:.2f} | "
+                    f"ML: {'✓' if agent_state['ml_available'] else '✗'}"
+                )
             
             # Generate audio
             audio = st.session_state.perf_synth.generate(2.0, mapped_controls)
