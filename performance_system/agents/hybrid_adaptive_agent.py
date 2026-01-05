@@ -52,6 +52,10 @@ except ImportError:
     AdaptiveMapperMLP = None  # Define as None when torch not available
 
 
+# Default ML model path
+DEFAULT_MODEL_PATH = "models/adaptive_mapper.pth"
+
+
 class HybridAdaptiveAgent:
     """
     Hybrid adaptive co-performer combining symbolic logic and optional ML.
@@ -105,7 +109,7 @@ class HybridAdaptiveAgent:
         
         # Try to load ML model
         if model_path is None:
-            model_path = "models/adaptive_mapper.pth"
+            model_path = DEFAULT_MODEL_PATH
         
         if TORCH_AVAILABLE and os.path.exists(model_path):
             try:
@@ -276,7 +280,7 @@ class HybridAdaptiveAgent:
                 
                 # Tempo adjustment (delta[3] if available, scaled appropriately)
                 if len(delta) > 3:
-                    tempo_delta = delta[3] * 20  # ±2 BPM (delta range [-0.1, 0.1])
+                    tempo_delta = delta[3] * 20  # ±2 BPM max (delta range [-0.1, 0.1] * 20)
                     base_output['tempo_suggestion'] = int(np.clip(
                         base_output['tempo_suggestion'] + tempo_delta, 60, 140
                     ))

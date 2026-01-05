@@ -282,10 +282,17 @@ with col1:
                 agent_response = st.session_state.perf_hybrid_agent.respond(mapped_controls)
                 agent_state = st.session_state.perf_hybrid_agent.get_state()
                 
-                # Blend agent response with performer controls
-                # Agent modulates density and tension
-                mapped_controls['control_2'] = agent_response['note_density']
-                mapped_controls['control_3'] = agent_response['harmonic_tension']
+                # Blend agent response with performer controls (70% performer, 30% AI)
+                # This preserves performer agency while allowing AI to modulate the output
+                blend_factor = 0.3
+                mapped_controls['control_2'] = (
+                    (1 - blend_factor) * mapped_controls['control_2'] + 
+                    blend_factor * agent_response['note_density']
+                )
+                mapped_controls['control_3'] = (
+                    (1 - blend_factor) * mapped_controls['control_3'] + 
+                    blend_factor * agent_response['harmonic_tension']
+                )
                 
                 # Show agent state
                 st.info(
