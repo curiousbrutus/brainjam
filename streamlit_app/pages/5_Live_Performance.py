@@ -30,6 +30,9 @@ try:
 except ImportError:
     HYBRID_AGENT_AVAILABLE = False
 
+# Constants
+ML_MODEL_PATH = "models/adaptive_mapper.pth"
+
 st.set_page_config(page_title="Live Performance", page_icon="🎭", layout="wide")
 
 st.title("🎭 Live Performance: System MVP")
@@ -71,7 +74,7 @@ if 'perf_hybrid_agent' not in st.session_state and HYBRID_AGENT_AVAILABLE:
     st.session_state.perf_hybrid_agent = HybridAdaptiveAgent(
         buffer_duration=10.0,
         sample_rate=10.0,
-        model_path="models/adaptive_mapper.pth"
+        model_path=ML_MODEL_PATH
     )
     
 if 'performance_running' not in st.session_state:
@@ -153,13 +156,13 @@ if enable_hybrid_agent:
     enable_ml_personalization = st.sidebar.checkbox(
         "Enable ML personalization (requires trained model)",
         value=False,
-        help="Load trained ML model from models/adaptive_mapper.pth for personalized responses"
+        help=f"Load trained ML model from {ML_MODEL_PATH} for personalized responses"
     )
     
     if enable_ml_personalization:
         st.sidebar.info(
-            "🤖 ML personalization will be used if the model file exists at "
-            "`models/adaptive_mapper.pth`. Otherwise, symbolic rules will be used."
+            f"🤖 ML personalization will be used if the model file exists at "
+            f"`{ML_MODEL_PATH}`. Otherwise, symbolic rules will be used."
         )
 else:
     enable_ml_personalization = False

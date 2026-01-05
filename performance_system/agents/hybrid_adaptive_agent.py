@@ -20,7 +20,7 @@ References:
 """
 
 import numpy as np
-from typing import Dict, Optional, List
+from typing import Dict, Optional, List, Any
 from collections import deque
 import os
 
@@ -276,7 +276,7 @@ class HybridAdaptiveAgent:
                 
                 # Tempo adjustment (delta[3] if available, scaled appropriately)
                 if len(delta) > 3:
-                    tempo_delta = delta[3] * 20  # Scale to ±2 BPM adjustment
+                    tempo_delta = delta[3] * 20  # ±2 BPM (delta range [-0.1, 0.1])
                     base_output['tempo_suggestion'] = int(np.clip(
                         base_output['tempo_suggestion'] + tempo_delta, 60, 140
                     ))
@@ -296,7 +296,7 @@ class HybridAdaptiveAgent:
         
         return final_output
     
-    def get_state(self) -> Dict[str, any]:
+    def get_state(self) -> Dict[str, Any]:
         """
         Get current internal state for debugging/visualization.
         
