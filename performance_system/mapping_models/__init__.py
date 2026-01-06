@@ -8,5 +8,6 @@ These models optimize for smoothness, stability, and controllability - NOT accur
 from .linear_mapper import LinearMapper
 from .mlp_mapper import MLPMapper
 from .expressive_mapper import ExpressiveMapper
+from .eeg_mapper import EEGMapper
 
-__all__ = ['LinearMapper', 'MLPMapper', 'ExpressiveMapper']
+__all__ = ['LinearMapper', 'MLPMapper', 'ExpressiveMapper', 'EEGMapper']
