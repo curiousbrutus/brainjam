@@ -1,3 +1,21 @@
+<p align="center">
+  <a href="https://youtu.be/RyVzkITR0GU" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.youtube.com/vi/RyVzkITR0GU/hqdefault.jpg" width="480" alt="BrainJam Demo — Click to play" />
+  </a>
+</p>
+
+<p align="center">
+  ▶︎ <strong>Click or tap the video window above to play the demo — please start the video before reading the rest of this README.</strong>
+</p>
+
+<!--
+Note: GitHub strips <iframe> tags and does not allow autoplay in README files, so an inline playable YouTube frame is not possible on github.com.
+The thumbnail above opens the YouTube video in a new tab (or the YouTube app on mobile) when clicked.
+If you render this README on a site that allows raw HTML (not GitHub), replace the thumbnail with this iframe to embed the player inline:
+
+<iframe width="800" height="450" src="https://www.youtube.com/embed/RyVzkITR0GU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-->
+
 # BrainJam: AI-Mediated Musical Performance System
 
 > **PhD Research Project Proposal**  
@@ -14,7 +32,7 @@
 
 ## 🎯 Project Overview
 
-**BrainJam** is a real-time musical performance system exploring **human-AI co-performance** through brain-computer interfaces. Unlike traditional AI music generation, BrainJam positions AI as a **responsive musical partner**, not an autonomous generator, while preserving complete **performer agency**.
+**BrainJam** is a real-time musical performance system exploring **human-AI co-performance** through brain-computer interfaces. Unlike traditional AI music generation, BrainJam positions AI as a **responsive co-performer** rather than an autonomous generator, emphasizing performer agency and expressive control.
 
 ### Core Research Questions
 
@@ -27,7 +45,7 @@
 - **Hybrid Adaptive Agent**: Combines symbolic logic (reliability) + optional ML (personalization)
 - **Real-time Performance**: <30ms total latency for live performance
 - **Performer-Led Design**: AI never generates autonomously—all outputs modulate performer input
-- **BCI as Control**: EEG/fNIRS signals treated as expressive inputs, not semantic decoding
+- **BCI as Control**: EEG/fNIRS/EMG signals treated as expressive inputs, not semantic decoding
 
 ---
 
@@ -38,7 +56,7 @@
 │                    BrainJam Architecture                     │
 ├─────────────────────────────────────────────────────────────┤
 │  Input Layer          │  AI Layer           │  Output Layer │
-│  • EEG/fNIRS      ──► │  Hybrid Agent    ──► │  Piano Synth │
+│  • EEG/fNIRS/EMG  ──► │  Hybrid Agent    ──► │  Piano Synth │
 │  • MIDI/Keyboard  ──► │  • Agent Memory  ──► │  Guitar Synth│
 │  • Mock Signals       │  • EEG Mapper        │  • Beats     │
 └───────────────────────┴──────────────────────┴───────────────┘
@@ -46,9 +64,9 @@
 
 ### Core Components
 
-1. **Hybrid Adaptive Agent** 🧠: Three behavioral states (calm/active/responsive), <5ms inference
-2. **Sound Engines** 🎵: DDSP Piano, Guitar, Beat Generator
-3. **Agent Memory** 💭: GRU-based dialogue learning (JSB Chorales)
+1. **Hybrid Adaptive Agent** 🧠: Three behavioral states (calm/active/responsive), <5ms inference  
+2. **Sound Engines** 🎵: DDSP Piano, Guitar, Beat Generator  
+3. **Agent Memory** 💭: GRU-based dialogue learning (JSB Chorales)  
 4. **EEG Mapper** 🔬: EEGNet architecture, OpenMIIR compatible
 
 ---
@@ -148,16 +166,16 @@ See [`docs/research/interaction_measures/`](docs/research/interaction_measures/)
 
 ## 📖 Documentation
 
-**For Researchers**: [`docs/research/`](docs/research/) - Ethics, limitations, evaluation
-**For Developers**: [`docs/architecture/`](docs/architecture/) - Technical design, components
+**For Researchers**: [`docs/research/`](docs/research/) - Ethics, limitations, evaluation  
+**For Developers**: [`docs/architecture/`](docs/architecture/) - Technical design, components  
 **For Users**: [`QUICK_START.md`](QUICK_START.md), [`examples/`](examples/)
 
 ---
 
 ## 🛠️ Technical Stack
 
-- **Python 3.9+**, NumPy/SciPy, PyTorch (optional)
-- **Streamlit** GUI, scikit-learn
+- **Python 3.9+**, NumPy/SciPy, PyTorch (optional)  
+- **Streamlit** GUI, scikit-learn  
 - **Performance**: <30ms latency, 44.1kHz audio, 10Hz control rate
 
 ---
@@ -190,8 +208,8 @@ See [`literature/`](literature/) for detailed summaries.
 ## 📧 Contact
 
 **Project**: BrainJam - AI-Mediated Musical Performance  
-**Affiliation**: MishMash WP1, Norway  
-**Purpose**: PhD Research Application
+**Purpose**: PhD Research Application  
+eyyub.gvn@gmail.com
 
 ---
 
