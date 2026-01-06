@@ -27,7 +27,7 @@
 - **Hybrid Adaptive Agent**: Combines symbolic logic (reliability) + optional ML (personalization)
 - **Real-time Performance**: <30ms total latency for live performance
 - **Performer-Led Design**: AI never generates autonomously—all outputs modulate performer input
-- **BCI as Control**: EEG/fNIRS signals treated as expressive inputs, not semantic decoding
+- **BCI as Control**: EEG/fNIRS/EMG signals treated as expressive inputs, not semantic decoding
 
 ---
 
@@ -38,7 +38,7 @@
 │                    BrainJam Architecture                     │
 ├─────────────────────────────────────────────────────────────┤
 │  Input Layer          │  AI Layer           │  Output Layer │
-│  • EEG/fNIRS      ──► │  Hybrid Agent    ──► │  Piano Synth │
+│  • EEG/fNIRS/EMG  ──► │  Hybrid Agent    ──► │  Piano Synth │
 │  • MIDI/Keyboard  ──► │  • Agent Memory  ──► │  Guitar Synth│
 │  • Mock Signals       │  • EEG Mapper        │  • Beats     │
 └───────────────────────┴──────────────────────┴───────────────┘
@@ -189,9 +189,9 @@ See [`literature/`](literature/) for detailed summaries.
 
 ## 📧 Contact
 
-**Project**: BrainJam - AI-Mediated Musical Performance  
-**Affiliation**: MishMash WP1, Norway  
+**Project**: BrainJam - AI-Mediated Musical Performance 
 **Purpose**: PhD Research Application
+eyyub.gvn@gmail.com
 
 ---
 
