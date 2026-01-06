@@ -20,15 +20,10 @@ wheels/
 .installed.cfg
 *.egg
 
-# Jupyter Notebook
-.ipynb_checkpoints
-*.ipynb_checkpoints/
-
 # Virtual environments
 venv/
-env/
 ENV/
-.venv
+env/
 
 # IDE
 .vscode/
@@ -37,46 +32,29 @@ ENV/
 *.swo
 *~
 
-# Data files (keep structure, ignore large data)
-*.h5
-*.hdf5
-*.npy
-*.npz
-*.mat
-*.pkl
-*.pickle
+# Jupyter
+.ipynb_checkpoints
+*.ipynb
 
-# Model checkpoints
-*.pt
-*.pth
-*.ckpt
-*.safetensors
-
-# Audio files
-*.wav
-*.mp3
-*.flac
-*.ogg
-
-# Demo outputs
-demo*.wav
-demo*.png
-my_first_brainjam.wav
-
-# Neuroimaging data
-*.nii
-*.nii.gz
-*.dcm
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Logs
-*.log
-logs/
+# Project specific
+*.wav
+*.mp3
+*.flac
+models/*.pth
+models/*.pt
+models/*.onnx
+!models/README.md
+!models/*.md
 
 # Temporary files
-tmp/
-temp/
 *.tmp
+*.log
