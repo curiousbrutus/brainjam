@@ -1,3 +1,13 @@
+[![BrainJam Demo — Click to play](https://img.youtube.com/vi/RyVzkITR0GU/maxresdefault.jpg)](https://youtu.be/RyVzkITR0GU)
+
+<!--
+Note: GitHub's README rendering does not allow autoplaying or embedding YouTube iframes.
+The image above links to the YouTube video and serves as an inline "play" thumbnail.
+If you render this README on a site that supports raw HTML iframes, you can replace the image link with the iframe below:
+
+<iframe width="800" height="450" src="https://www.youtube.com/embed/RyVzkITR0GU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+-->
+
 # BrainJam: AI-Mediated Musical Performance System
 
 > **PhD Research Project Proposal**  
@@ -14,7 +24,7 @@
 
 ## 🎯 Project Overview
 
-**BrainJam** is a real-time musical performance system exploring **human-AI co-performance** through brain-computer interfaces. Unlike traditional AI music generation, BrainJam positions AI as a **responsive musical partner**, not an autonomous generator, while preserving complete **performer agency**.
+**BrainJam** is a real-time musical performance system exploring **human-AI co-performance** through brain-computer interfaces. Unlike traditional AI music generation, BrainJam positions AI as a **responsive co-performer** rather than an autonomous generator, emphasizing performer agency and expressive control.
 
 ### Core Research Questions
 
@@ -46,9 +56,9 @@
 
 ### Core Components
 
-1. **Hybrid Adaptive Agent** 🧠: Three behavioral states (calm/active/responsive), <5ms inference
-2. **Sound Engines** 🎵: DDSP Piano, Guitar, Beat Generator
-3. **Agent Memory** 💭: GRU-based dialogue learning (JSB Chorales)
+1. **Hybrid Adaptive Agent** 🧠: Three behavioral states (calm/active/responsive), <5ms inference  
+2. **Sound Engines** 🎵: DDSP Piano, Guitar, Beat Generator  
+3. **Agent Memory** 💭: GRU-based dialogue learning (JSB Chorales)  
 4. **EEG Mapper** 🔬: EEGNet architecture, OpenMIIR compatible
 
 ---
@@ -148,16 +158,16 @@ See [`docs/research/interaction_measures/`](docs/research/interaction_measures/)
 
 ## 📖 Documentation
 
-**For Researchers**: [`docs/research/`](docs/research/) - Ethics, limitations, evaluation
-**For Developers**: [`docs/architecture/`](docs/architecture/) - Technical design, components
+**For Researchers**: [`docs/research/`](docs/research/) - Ethics, limitations, evaluation  
+**For Developers**: [`docs/architecture/`](docs/architecture/) - Technical design, components  
 **For Users**: [`QUICK_START.md`](QUICK_START.md), [`examples/`](examples/)
 
 ---
 
 ## 🛠️ Technical Stack
 
-- **Python 3.9+**, NumPy/SciPy, PyTorch (optional)
-- **Streamlit** GUI, scikit-learn
+- **Python 3.9+**, NumPy/SciPy, PyTorch (optional)  
+- **Streamlit** GUI, scikit-learn  
 - **Performance**: <30ms latency, 44.1kHz audio, 10Hz control rate
 
 ---
@@ -189,8 +199,8 @@ See [`literature/`](literature/) for detailed summaries.
 
 ## 📧 Contact
 
-**Project**: BrainJam - AI-Mediated Musical Performance 
-**Purpose**: PhD Research Application
+**Project**: BrainJam - AI-Mediated Musical Performance  
+**Purpose**: PhD Research Application  
 eyyub.gvn@gmail.com
 
 ---
