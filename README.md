@@ -170,6 +170,10 @@ See [`docs/research/interaction_measures/`](docs/research/interaction_measures/)
 **For Developers**: [`docs/architecture/`](docs/architecture/) - Technical design, components  
 **For Users**: [`QUICK_START.md`](QUICK_START.md), [`examples/`](examples/)
 
+**Project Status**:
+- [`LIMITATIONS.md`](LIMITATIONS.md) - Key limitations and appropriate use cases
+- [`IMPROVEMENTS.md`](IMPROVEMENTS.md) - Suggested improvements and development roadmap
+
 ---
 
 ## 🛠️ Technical Stack

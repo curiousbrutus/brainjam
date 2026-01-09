@@ -10,6 +10,8 @@ brainjam/ (22MB total: 1MB code + 21MB media)
 ├── 📄 README.md (7KB)                    ← Start here
 ├── 📄 PROJECT_SUMMARY.md (13KB)          ← Complete overview
 ├── 📄 QUICK_START.md (6KB)               ← Getting started
+├── 📄 LIMITATIONS.md (17KB)              ← Key limitations & constraints
+├── 📄 IMPROVEMENTS.md (15KB)             ← Suggested improvements
 ├── 📄 requirements.txt (2KB)             ← Dependencies
 ├── 🔧 run_gui.sh                         ← Launch GUI
 │
@@ -110,11 +112,13 @@ brainjam/ (22MB total: 1MB code + 21MB media)
 1. **README.md** - Project overview and quick start
 2. **PROJECT_SUMMARY.md** - Comprehensive research summary
 3. **QUICK_START.md** - Installation and first steps
+4. **LIMITATIONS.md** - Understanding what the system can and cannot do
 
 ### For Researchers
 1. **docs/research/** - Ethics, limitations, evaluation
 2. **literature/** - Academic references
 3. **PROJECT_SUMMARY.md** - Research framework
+4. **IMPROVEMENTS.md** - Development roadmap and suggestions
 
 ### For Developers
 1. **docs/architecture/** - Technical design
